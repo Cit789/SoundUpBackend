@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SoundUpRes.Models;
+using SoundUp.Models;
 
-namespace SoundUpRes.Configuration
+namespace SoundUp.Configuration
 {
 
     public class BaseUserConfiguration : IEntityTypeConfiguration<BaseUser>
@@ -17,6 +17,11 @@ namespace SoundUpRes.Configuration
             builder
                 .HasMany(b => b.Favorites)
                 .WithMany(m => m.WhoFavorited);
+
+            builder
+                .HasOne(b => b.ListenHistory)
+                .WithOne(h => h.User)
+                .HasForeignKey<BaseUser>(b => b.ListenHistoryId);
 
             builder
                 .HasDiscriminator<string>("UserType")

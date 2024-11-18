@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SoundUpRes.Configuration;
-using SoundUpRes.Models;
+using SoundUp.Models;
+using SoundUp.Configuration;
+
 
 namespace SoundUp
 {
@@ -9,8 +10,9 @@ namespace SoundUp
         
         public DbSet<BaseUser> AllUsers { get; set; }
         public DbSet<Music> Music { get; set; }
+        public DbSet<MusicAudio> MusicAudio { get; set; }
         public DbSet<Album> Albums { get; set; }
-        public DbSet<Playlist> PlayLists { get; set; } 
+        public DbSet<Playlist> PlayLists { get; set; }
         public DbSet<UserAuthor> UserAuthors { get; set; }
         public DbSet<User> Users { get; set; }
         
@@ -21,6 +23,7 @@ namespace SoundUp
             modelBuilder.ApplyConfiguration(new BaseUserConfiguration());
             modelBuilder.ApplyConfiguration(new AlbumConfiguration());
             modelBuilder.ApplyConfiguration(new PlaylistConfiguration());
+            modelBuilder.ApplyConfiguration(new MusicAudioConfiguration());
             base.OnModelCreating(modelBuilder);
         }
         

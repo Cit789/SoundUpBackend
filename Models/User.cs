@@ -1,4 +1,4 @@
-﻿namespace SoundUpRes.Models
+﻿namespace SoundUp.Models
 {
     public class User : BaseUser { }
 }

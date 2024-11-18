@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SoundUpRes.Models;
+using SoundUp.Models;
 
-namespace SoundUpRes.Configuration
+namespace SoundUp.Configuration
 {
     public class MusicConfiguration : IEntityTypeConfiguration<Music>
     {
@@ -23,6 +23,12 @@ namespace SoundUpRes.Configuration
                 .HasOne(m => m.Album)
                 .WithMany(a => a.AlbumMusic)
                 .HasForeignKey(m => m.AlbumId);
+
+            builder
+                .HasOne(m => m.MusicAudio)
+                .WithOne(ma => ma.Music)
+                .HasForeignKey<Music>(x => x.MusicAudioId);
+                
 
         }
 

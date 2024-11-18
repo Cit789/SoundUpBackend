@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SoundUpRes.Models;
+using SoundUp.Models;
 
-namespace SoundUpRes.Configuration
+namespace SoundUp.Configuration
 {
     public class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
     {

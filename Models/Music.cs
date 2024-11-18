@@ -1,4 +1,6 @@
-﻿namespace SoundUpRes.Models
+﻿using SoundUp.Models;
+
+namespace SoundUp.Models
 {
     public class Music
     {
@@ -7,13 +9,12 @@
         public UserAuthor? Author { get; set; }
         public string Avatar { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public string Audio { get; set; } = string.Empty;
-
         public MusicCategories Category { get; set; }
-
+        public MusicAudio? MusicAudio { get; set; }
+        public Guid MusicAudioId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-
+        public List<ListenHistory> ListenHistories { get; set; } = [];
         public List<Playlist> MusicInPlaylists { get; set; } = [];
         public List<BaseUser> WhoFavorited { get; set; } = [];
 
