@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SoundUp.Contracts;
 using SoundUp.Models;
 
@@ -10,8 +9,9 @@ namespace SoundUp.Controllers
     {
         private readonly ApplicationDbContext _dbcontext = dbContext;
 
+
         [HttpPost("/PostAlbum")]
-        public async Task PostAlbum([FromBody] CreateAlbumRequest RequestAlbum)
+        public async Task<IActionResult> PostAlbum([FromBody] CreateAlbumRequest RequestAlbum)
         {
             var NewAlbum = new Album()
             {
@@ -23,12 +23,13 @@ namespace SoundUp.Controllers
 
             };
             await _dbcontext.Albums.AddAsync(NewAlbum);
-            await _dbcontext.SaveChangesAsync();
+            var Count = await _dbcontext.SaveChangesAsync();
+            return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
 
         [HttpPost("/PostMusic")]
-        public async Task PostMusic([FromBody] CreateMusicRequest RequestMusic)
+        public async Task<IActionResult> PostMusic([FromBody] CreateMusicRequest RequestMusic)
         {
             Guid MusicId = Guid.NewGuid();
             Guid MusicAudioId = Guid.NewGuid();
@@ -49,20 +50,20 @@ namespace SoundUp.Controllers
                 }
             };
 
-            
-
             await _dbcontext.Music.AddAsync(NewMusic);
-            await _dbcontext.SaveChangesAsync();
+            var Count = await _dbcontext.SaveChangesAsync();
+            return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
 
         [HttpPost("/PostAuthor")]
-        public async Task PostAuthor([FromBody] CreateAuthorRequest createAuthorRequest)
+        public async Task<IActionResult> PostAuthor([FromBody] CreateAuthorOrUserRequest createAuthorRequest)
         {
             var AuthorId = Guid.NewGuid();
-            var ListenHistoryForAuthor = new ListenHistory()
+            var ListenHistoryId = Guid.NewGuid();
+            var ListenHistory = new ListenHistory()
             {
-                Id = Guid.NewGuid(),
+                Id = ListenHistoryId,
                 UserId = AuthorId
             };
             var NewAuthor = new UserAuthor()
@@ -71,13 +72,61 @@ namespace SoundUp.Controllers
                 Password = createAuthorRequest.Password,
                 Avatar = createAuthorRequest.Avatar,
                 Id = AuthorId,
-                ListenHistory = ListenHistoryForAuthor
-
+                ListenHistory = ListenHistory,
+                ListenHistoryId = ListenHistoryId,
+                
             };
 
             await _dbcontext.UserAuthors.AddAsync(NewAuthor);
-            await _dbcontext.SaveChangesAsync();
+            var Count = await _dbcontext.SaveChangesAsync();
+            return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
+
+
+        [HttpPost("/PostDefaultUser")]
+        public async Task<IActionResult> PostDefaultUser([FromBody] CreateAuthorOrUserRequest createUserRequest)
+        {
+            var UserId = Guid.NewGuid();
+            var ListenHistoryId = Guid.NewGuid() ;
+            var ListenHistory = new ListenHistory()
+            {
+                Id = ListenHistoryId,
+                UserId = UserId
+            };
+            var NewUser = new User()
+            {
+                Name = createUserRequest.Name,
+                Password = createUserRequest.Password,
+                Avatar = createUserRequest.Avatar,
+                Id = UserId,
+                ListenHistory = ListenHistory,
+                ListenHistoryId = ListenHistoryId
+
+            };
+
+            await _dbcontext.Users.AddAsync(NewUser);
+            var Count = await _dbcontext.SaveChangesAsync();
+            return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
+        }
+
+        [HttpPost("/PostPlaylist")]
+        public async Task<IActionResult> PostPlaylist([FromBody] CreatePlaylistRequest createPlaylistRequest)
+        {
+            var playlist = new Playlist()
+            {
+                Id = Guid.NewGuid(),
+                Name = createPlaylistRequest.Name,
+                CreatorId = createPlaylistRequest.CreatorId,
+                Avatar = createPlaylistRequest.Avatar
+
+            };
+            
+
+            await _dbcontext.PlayLists.AddAsync(playlist);
+            var Count = await _dbcontext.SaveChangesAsync();
+            return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
+        }
+
     }
 
 }

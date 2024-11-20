@@ -1,9 +1,14 @@
-﻿using SoundUp.Models;
+﻿
 
 namespace SoundUp.Models
 {
     public class Music
     {
+        public Music()
+        {
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
+        }
         public Guid Id { get; set; }
         public Guid AuthorId { get; set; }
         public UserAuthor? Author { get; set; }

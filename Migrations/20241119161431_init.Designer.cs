@@ -12,8 +12,8 @@ using SoundUp;
 namespace SoundUp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241117184508_initial")]
-    partial class initial
+    [Migration("20241119161431_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,9 @@ namespace SoundUp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -90,6 +93,9 @@ namespace SoundUp.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -132,9 +138,6 @@ namespace SoundUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ListenHistoryId")
-                        .IsUnique();
-
                     b.ToTable("AllUsers");
 
                     b.HasDiscriminator<string>("UserType").HasValue("BaseUser");
@@ -153,7 +156,10 @@ namespace SoundUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ListenHistory");
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ListenHistories");
                 });
 
             modelBuilder.Entity("SoundUp.Models.Music", b =>
@@ -178,7 +184,7 @@ namespace SoundUp.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("MusicAudioId")
+                    b.Property<Guid>("MusicAudioId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -207,8 +213,14 @@ namespace SoundUp.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("MusicId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -318,15 +330,15 @@ namespace SoundUp.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("SoundUp.Models.BaseUser", b =>
+            modelBuilder.Entity("SoundUp.Models.ListenHistory", b =>
                 {
-                    b.HasOne("SoundUp.Models.ListenHistory", "ListenHistory")
-                        .WithOne("User")
-                        .HasForeignKey("SoundUp.Models.BaseUser", "ListenHistoryId")
+                    b.HasOne("SoundUp.Models.BaseUser", "User")
+                        .WithOne("ListenHistory")
+                        .HasForeignKey("SoundUp.Models.ListenHistory", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ListenHistory");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SoundUp.Models.Music", b =>
@@ -377,12 +389,9 @@ namespace SoundUp.Migrations
 
             modelBuilder.Entity("SoundUp.Models.BaseUser", b =>
                 {
-                    b.Navigation("Playlists");
-                });
+                    b.Navigation("ListenHistory");
 
-            modelBuilder.Entity("SoundUp.Models.ListenHistory", b =>
-                {
-                    b.Navigation("User");
+                    b.Navigation("Playlists");
                 });
 
             modelBuilder.Entity("SoundUp.Models.Music", b =>

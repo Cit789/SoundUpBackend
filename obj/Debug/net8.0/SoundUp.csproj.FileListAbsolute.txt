@@ -140,10 +140,10 @@ C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\staticwebassets\msbuil
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.SoundUp.props
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.SoundUp.props
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\SoundUp.csproj.Up2Date
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\SoundUp.dll
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\refint\SoundUp.dll
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\SoundUp.pdb
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\SoundUp.genruntimeconfig.cache
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\ref\SoundUp.dll
+C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

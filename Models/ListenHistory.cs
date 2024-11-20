@@ -2,7 +2,7 @@
 {
     public class ListenHistory
     {
-        
+    
         public Guid Id { get; set; }
         public List<Music> MusicHistory { get; set; } = [];
         public BaseUser? User { get; set; }

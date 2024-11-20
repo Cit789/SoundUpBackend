@@ -6,23 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SoundUp.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ListenHistory",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ListenHistory", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AllUsers",
                 columns: table => new
@@ -39,12 +27,6 @@ namespace SoundUp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AllUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AllUsers_ListenHistory_ListenHistoryId",
-                        column: x => x.ListenHistoryId,
-                        principalTable: "ListenHistory",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +37,9 @@ namespace SoundUp.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Avatar = table.Column<string>(type: "text", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false)
+                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,6 +47,24 @@ namespace SoundUp.Migrations
                     table.ForeignKey(
                         name: "FK_Albums_AllUsers_AuthorId",
                         column: x => x.AuthorId,
+                        principalTable: "AllUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ListenHistories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ListenHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ListenHistories_AllUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AllUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -99,7 +101,7 @@ namespace SoundUp.Migrations
                     Avatar = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Category = table.Column<int>(type: "integer", nullable: false),
-                    MusicAudioId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MusicAudioId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     AlbumId = table.Column<Guid>(type: "uuid", nullable: false)
@@ -156,9 +158,9 @@ namespace SoundUp.Migrations
                 {
                     table.PrimaryKey("PK_ListenHistoryMusic", x => new { x.ListenHistoriesId, x.MusicHistoryId });
                     table.ForeignKey(
-                        name: "FK_ListenHistoryMusic_ListenHistory_ListenHistoriesId",
+                        name: "FK_ListenHistoryMusic_ListenHistories_ListenHistoriesId",
                         column: x => x.ListenHistoriesId,
-                        principalTable: "ListenHistory",
+                        principalTable: "ListenHistories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -175,7 +177,9 @@ namespace SoundUp.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Audio = table.Column<string>(type: "text", nullable: false),
-                    MusicId = table.Column<Guid>(type: "uuid", nullable: false)
+                    MusicId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -218,15 +222,15 @@ namespace SoundUp.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AllUsers_ListenHistoryId",
-                table: "AllUsers",
-                column: "ListenHistoryId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BaseUserMusic_WhoFavoritedId",
                 table: "BaseUserMusic",
                 column: "WhoFavoritedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ListenHistories_UserId",
+                table: "ListenHistories",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ListenHistoryMusic_MusicHistoryId",
@@ -276,6 +280,9 @@ namespace SoundUp.Migrations
                 name: "MusicPlaylist");
 
             migrationBuilder.DropTable(
+                name: "ListenHistories");
+
+            migrationBuilder.DropTable(
                 name: "Music");
 
             migrationBuilder.DropTable(
@@ -286,9 +293,6 @@ namespace SoundUp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AllUsers");
-
-            migrationBuilder.DropTable(
-                name: "ListenHistory");
         }
     }
 }

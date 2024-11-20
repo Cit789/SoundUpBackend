@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/GetMusic": {
+    "/GetAllMusic": {
       "get": {
         "tags": [
           "GetRequests"
@@ -30,45 +30,35 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Music"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Music"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Music"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     },
-    "/GetAlbumFromAuthor": {
+    "/GetAlbumMusic": {
       "get": {
         "tags": [
           "GetRequests"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AuthorId",
             "in": "query",
             "schema": {
               "type": "string",
@@ -78,33 +68,67 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MusicDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MusicDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MusicDto"
-                  }
-                }
-              }
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/GetPlaylistMusic": {
+      "get": {
+        "tags": [
+          "GetRequests"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PlaylistId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/GetUser": {
+      "get": {
+        "tags": [
+          "GetRequests"
+        ],
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -180,17 +204,141 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateAuthorRequest"
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateAuthorRequest"
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateAuthorRequest"
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/PostDefaultUser": {
+      "post": {
+        "tags": [
+          "PostRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/PostPlaylist": {
+      "post": {
+        "tags": [
+          "PostRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlaylistRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlaylistRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlaylistRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/AddMusicInPlaylist": {
+      "put": {
+        "tags": [
+          "PutRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMusicInPlaylistRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMusicInPlaylistRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMusicInPlaylistRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/AddMusicInFavourites": {
+      "put": {
+        "tags": [
+          "PutRequests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMusicInFavouritesRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMusicInFavouritesRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMusicInFavouritesRequest"
               }
             }
           }
@@ -205,89 +353,30 @@
   },
   "components": {
     "schemas": {
-      "Album": {
+      "AddMusicInFavouritesRequest": {
         "type": "object",
         "properties": {
-          "id": {
+          "musicId": {
             "type": "string",
             "format": "uuid"
           },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "avatar": {
-            "type": "string",
-            "nullable": true
-          },
-          "author": {
-            "$ref": "#/components/schemas/UserAuthor"
-          },
-          "authorId": {
+          "userId": {
             "type": "string",
             "format": "uuid"
-          },
-          "albumMusic": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Music"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "BaseUser": {
+      "AddMusicInPlaylistRequest": {
         "type": "object",
         "properties": {
-          "id": {
+          "musicId": {
             "type": "string",
             "format": "uuid"
           },
-          "avatar": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "favorites": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Music"
-            },
-            "nullable": true
-          },
-          "playlists": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Playlist"
-            },
-            "nullable": true
-          },
-          "listenHistory": {
-            "$ref": "#/components/schemas/ListenHistory"
-          },
-          "listenHistoryId": {
+          "playlistId": {
             "type": "string",
             "format": "uuid"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -314,7 +403,7 @@
         },
         "additionalProperties": false
       },
-      "CreateAuthorRequest": {
+      "CreateAuthorOrUserRequest": {
         "type": "object",
         "properties": {
           "avatar": {
@@ -361,118 +450,20 @@
         },
         "additionalProperties": false
       },
-      "ListenHistory": {
+      "CreatePlaylistRequest": {
         "type": "object",
         "properties": {
-          "id": {
+          "name": {
             "type": "string",
-            "format": "uuid"
-          },
-          "musicHistory": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Music"
-            },
             "nullable": true
-          },
-          "user": {
-            "$ref": "#/components/schemas/BaseUser"
-          },
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Music": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "authorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "author": {
-            "$ref": "#/components/schemas/UserAuthor"
           },
           "avatar": {
             "type": "string",
             "nullable": true
           },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "category": {
-            "$ref": "#/components/schemas/MusicCategories"
-          },
-          "musicAudio": {
-            "$ref": "#/components/schemas/MusicAudio"
-          },
-          "musicAudioId": {
+          "creatorId": {
             "type": "string",
             "format": "uuid"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "listenHistories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ListenHistory"
-            },
-            "nullable": true
-          },
-          "musicInPlaylists": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Playlist"
-            },
-            "nullable": true
-          },
-          "whoFavorited": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BaseUser"
-            },
-            "nullable": true
-          },
-          "album": {
-            "$ref": "#/components/schemas/Album"
-          },
-          "albumId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "MusicAudio": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "audio": {
-            "type": "string",
-            "nullable": true
-          },
-          "musicId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "music": {
-            "$ref": "#/components/schemas/Music"
           }
         },
         "additionalProperties": false
@@ -491,144 +482,6 @@
         ],
         "type": "integer",
         "format": "int32"
-      },
-      "MusicDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "audioId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "avatar": {
-            "type": "string",
-            "nullable": true
-          },
-          "category": {
-            "$ref": "#/components/schemas/MusicCategories"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Playlist": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "avatar": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "creatorId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "creator": {
-            "$ref": "#/components/schemas/BaseUser"
-          },
-          "musicList": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Music"
-            },
-            "nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "UserAuthor": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "avatar": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "favorites": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Music"
-            },
-            "nullable": true
-          },
-          "playlists": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Playlist"
-            },
-            "nullable": true
-          },
-          "listenHistory": {
-            "$ref": "#/components/schemas/ListenHistory"
-          },
-          "listenHistoryId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdMusics": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Music"
-            },
-            "nullable": true
-          },
-          "albums": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Album"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
       }
     }
   }

@@ -1,34 +1,66 @@
 [
   {
+    "ContainingType": "SoundUp.Controllers.PutRequests",
+    "Method": "PutMusicInFavourite",
+    "RelativePath": "AddMusicInFavourites",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addMusicInFavouritesRequest",
+        "Type": "SoundUp.DtoForUpdate.AddMusicInFavouritesRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PutRequests",
+    "Method": "PutMusicInPlaylist",
+    "RelativePath": "AddMusicInPlaylist",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addMusicInPlaylistRequest",
+        "Type": "SoundUp.DtoForUpdate.AddMusicInPlaylistRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoundUp.Controllers.GetRequests",
-    "Method": "getalbum",
-    "RelativePath": "GetAlbumFromAuthor",
+    "Method": "GetAlbumMusic",
+    "RelativePath": "GetAlbumMusic",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "AuthorId",
         "Type": "System.Guid",
         "IsRequired": false
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.List\u00601[[SoundUp.Dto.MusicDto, SoundUp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SoundUp.Controllers.GetRequests",
     "Method": "Musics",
-    "RelativePath": "GetMusic",
+    "RelativePath": "GetAllMusic",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -44,17 +76,49 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequests",
+    "Method": "GetPlayListMusic",
+    "RelativePath": "GetPlaylistMusic",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[SoundUp.Models.Music, SoundUp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PlaylistId",
+        "Type": "System.Guid",
+        "IsRequired": false
       }
-    ]
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequests",
+    "Method": "GetUser",
+    "RelativePath": "GetUser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SoundUp.Controllers.PostRequests",
@@ -70,13 +134,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SoundUp.Controllers.PostRequests",
@@ -88,17 +146,27 @@
     "Parameters": [
       {
         "Name": "createAuthorRequest",
-        "Type": "SoundUp.Contracts.CreateAuthorRequest",
+        "Type": "SoundUp.Contracts.CreateAuthorOrUserRequest",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PostRequests",
+    "Method": "PostDefaultUser",
+    "RelativePath": "PostDefaultUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
+        "Name": "createUserRequest",
+        "Type": "SoundUp.Contracts.CreateAuthorOrUserRequest",
+        "IsRequired": true
       }
-    ]
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SoundUp.Controllers.PostRequests",
@@ -114,12 +182,22 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PostRequests",
+    "Method": "PostPlaylist",
+    "RelativePath": "PostPlaylist",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
+        "Name": "createPlaylistRequest",
+        "Type": "SoundUp.Contracts.CreatePlaylistRequest",
+        "IsRequired": true
       }
-    ]
+    ],
+    "ReturnTypes": []
   }
 ]
