@@ -147,3 +147,5 @@ C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\SoundUp.pdb
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\SoundUp.genruntimeconfig.cache
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\ref\SoundUp.dll
 C:\Users\PC\source\repos\SoundUp\SoundUp\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\PC\source\repos\SoundUp\SoundUp\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\PC\source\repos\SoundUp\SoundUp\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

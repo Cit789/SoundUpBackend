@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SoundUp.DtoForUpdate;
+using SoundUp.Contracts;
 
 namespace SoundUp.Controllers
 {
+    [Authorize]
     [Controller]
     public class PutRequests(ApplicationDbContext dbContext) : ControllerBase
     {
         private readonly ApplicationDbContext _dbcontext = dbContext;
 
+        
         [HttpPut("/AddMusicInPlaylist")]
         public async Task<IActionResult> PutMusicInPlaylist([FromBody] AddMusicInPlaylistRequest addMusicInPlaylistRequest)
         {
@@ -41,6 +44,8 @@ namespace SoundUp.Controllers
 
 
         }
+
+        
         [HttpPut("/AddMusicInFavourites")]
         public async Task<IActionResult> PutMusicInFavourite([FromBody] AddMusicInFavouritesRequest addMusicInFavouritesRequest)
         {

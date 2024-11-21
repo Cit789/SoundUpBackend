@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "addMusicInFavouritesRequest",
-        "Type": "SoundUp.DtoForUpdate.AddMusicInFavouritesRequest",
+        "Type": "SoundUp.Contracts.AddMusicInFavouritesRequest",
         "IsRequired": true
       }
     ],
@@ -25,7 +25,7 @@
     "Parameters": [
       {
         "Name": "addMusicInPlaylistRequest",
-        "Type": "SoundUp.DtoForUpdate.AddMusicInPlaylistRequest",
+        "Type": "SoundUp.Contracts.AddMusicInPlaylistRequest",
         "IsRequired": true
       }
     ],
@@ -116,6 +116,22 @@
         "Name": "UserId",
         "Type": "System.Guid",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PostRequests",
+    "Method": "Login",
+    "RelativePath": "Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "SoundUp.Contracts.LoginUserRequest",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

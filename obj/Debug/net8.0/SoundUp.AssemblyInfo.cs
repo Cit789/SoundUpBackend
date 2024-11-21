@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SoundUp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9c953fc780f92f7a265028847c05222bef35bf8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a434a9b864c2906086d25563efe14b20f4c64dbc")]
 [assembly: System.Reflection.AssemblyProductAttribute("SoundUp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SoundUp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

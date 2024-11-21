@@ -1,4 +1,4 @@
-﻿namespace SoundUp.DtoForUpdate
+﻿namespace SoundUp.Contracts
 {
     public class AddMusicInPlaylistRequest
     {

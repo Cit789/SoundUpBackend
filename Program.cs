@@ -1,7 +1,16 @@
+
 using Microsoft.EntityFrameworkCore;
 using SoundUp;
+using SoundUp.Extensions;
+using SoundUp.Infrastructure;
+using SoundUp.Interfaces.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
+builder.Services.AddApiAuthentication(builder.Configuration);
+
+services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
 
 
 builder.Services.AddControllers();
@@ -9,12 +18,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var configuration = builder.Configuration;
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(configuration.GetConnectionString(nameof(ApplicationDbContext)));
 });
+
+builder.Services.AddScoped<IPasswordHasher,PasswordHasher>();
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+
 
 var app = builder.Build();
 
@@ -30,7 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

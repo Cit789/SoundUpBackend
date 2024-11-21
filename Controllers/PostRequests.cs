@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoundUp.Contracts;
+using SoundUp.Interfaces.Auth;
 using SoundUp.Models;
-
 namespace SoundUp.Controllers
 {
     [Controller]
-    public class PostRequests(ApplicationDbContext dbContext) : ControllerBase
+    public class PostRequests(ApplicationDbContext dbContext, IPasswordHasher passwordHasher, IJwtProvider jwtProvider) : ControllerBase
     {
         private readonly ApplicationDbContext _dbcontext = dbContext;
+        private readonly IPasswordHasher _passwordHasher = passwordHasher;
+        private readonly IJwtProvider _jwtProvaider = jwtProvider;
 
-
+        [Authorize]
         [HttpPost("/PostAlbum")]
         public async Task<IActionResult> PostAlbum([FromBody] CreateAlbumRequest RequestAlbum)
         {
@@ -42,6 +45,7 @@ namespace SoundUp.Controllers
             return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
+        [Authorize]
         [HttpPost("/PostMusic")]
         public async Task<IActionResult> PostMusic([FromBody] CreateMusicRequest RequestMusic)
         {
@@ -82,6 +86,7 @@ namespace SoundUp.Controllers
             return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
+        
         [HttpPost("/PostAuthor")]
         public async Task<IActionResult> PostAuthor([FromBody] CreateAuthorOrUserRequest createAuthorRequest)
         {
@@ -89,6 +94,7 @@ namespace SoundUp.Controllers
             {
                 return Conflict("Уже существует пользователь с данным именем");
             }
+            var HashPassword = _passwordHasher.Generate(createAuthorRequest.Password);
             var AuthorId = Guid.NewGuid();
             var ListenHistoryId = Guid.NewGuid();
             var ListenHistory = new ListenHistory()
@@ -99,7 +105,7 @@ namespace SoundUp.Controllers
             var NewAuthor = new UserAuthor()
             {
                 Name = createAuthorRequest.Name,
-                Password = createAuthorRequest.Password,
+                Password = HashPassword,
                 Avatar = createAuthorRequest.Avatar,
                 Id = AuthorId,
                 ListenHistory = ListenHistory,
@@ -112,6 +118,7 @@ namespace SoundUp.Controllers
             return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
+        
         [HttpPost("/PostDefaultUser")]
         public async Task<IActionResult> PostDefaultUser([FromBody] CreateAuthorOrUserRequest createUserRequest)
         {
@@ -120,6 +127,8 @@ namespace SoundUp.Controllers
             {
                 return Conflict("Уже существует пользователь с данным именем");
             }
+            var HashPassword = _passwordHasher.Generate(createUserRequest.Password);
+
             var UserId = Guid.NewGuid();
             var ListenHistoryId = Guid.NewGuid();
             var ListenHistory = new ListenHistory()
@@ -130,7 +139,7 @@ namespace SoundUp.Controllers
             var NewUser = new User()
             {
                 Name = createUserRequest.Name,
-                Password = createUserRequest.Password,
+                Password = HashPassword,
                 Avatar = createUserRequest.Avatar,
                 Id = UserId,
                 ListenHistory = ListenHistory,
@@ -143,6 +152,7 @@ namespace SoundUp.Controllers
             return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
+        [Authorize]
         [HttpPost("/PostPlaylist")]
         public async Task<IActionResult> PostPlaylist([FromBody] CreatePlaylistRequest createPlaylistRequest)
         {
@@ -168,6 +178,22 @@ namespace SoundUp.Controllers
             return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
+        [Authorize]
+        [HttpPost("/Login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserRequest user)
+        {
+            var FindedUser = await _dbcontext.AllUsers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Name == user.UserName);
+            if (FindedUser != null && _passwordHasher.Verify(user.Password, FindedUser.Password))
+            {
+                var token = _jwtProvaider.GenerateToken(FindedUser);
+                return Ok(token);
+            }
+
+                return NotFound("Ошибка логина");
+            
+        }
     }
 
 }

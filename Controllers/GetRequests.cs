@@ -8,8 +8,9 @@ namespace SoundUp.Controllers
     [Controller]
     public class GetRequests(ApplicationDbContext dbContext) : ControllerBase
     {
+       
         private readonly ApplicationDbContext _dbcontext = dbContext;
-
+        
         [HttpGet("/GetAllMusic")]
         public async Task<IActionResult> Musics(int Page, int PageSize)
         {
@@ -94,5 +95,7 @@ namespace SoundUp.Controllers
             }
             return NotFound("Пользователь не найден");
         }
+
+        
     }
 }
