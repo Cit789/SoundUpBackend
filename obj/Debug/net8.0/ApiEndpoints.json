@@ -33,8 +33,29 @@
   },
   {
     "ContainingType": "SoundUp.Controllers.GetRequests",
-    "Method": "GetAlbumMusic",
-    "RelativePath": "GetAlbumMusic",
+    "Method": "Musics",
+    "RelativePath": "GetAllMusic",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequests",
+    "Method": "GetCreatedAuthorMusic",
+    "RelativePath": "GetCreatedAuthorMusic",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -52,27 +73,6 @@
       {
         "Name": "AuthorId",
         "Type": "System.Guid",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SoundUp.Controllers.GetRequests",
-    "Method": "Musics",
-    "RelativePath": "GetAllMusic",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "Page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "PageSize",
-        "Type": "System.Int32",
         "IsRequired": false
       }
     ],

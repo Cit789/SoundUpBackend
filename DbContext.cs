@@ -8,14 +8,14 @@ namespace SoundUp
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContext) : DbContext(dbContext)
     {
         
-        public DbSet<BaseUser> AllUsers { get; set; }
-        public DbSet<Music> Music { get; set; }
-        public DbSet<MusicAudio> ?MusicAudio { get; set; }
-        public DbSet<Album> Albums { get; set; }
-        public DbSet<Playlist> PlayLists { get; set; }
-        public DbSet<UserAuthor> UserAuthors { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<ListenHistory> ListenHistories { get; set; }
+        public DbSet<BaseUser> AllUsers { get; set; } = null!;
+        public DbSet<Music> Music { get; set; } = null!;
+        public DbSet<MusicAudio> MusicAudio { get; set; } = null!;
+        public DbSet<Album> Albums { get; set; } = null!;
+        public DbSet<Playlist> PlayLists { get; set; } = null!;
+        public DbSet<UserAuthor> UserAuthors { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<ListenHistory> ListenHistories { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AuthorConfiguration());

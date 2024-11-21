@@ -13,22 +13,25 @@ namespace SoundUp.Controllers
         [HttpGet("/GetAllMusic")]
         public async Task<IActionResult> Musics(int Page, int PageSize)
         {
-            if(Page <= 0 || PageSize < 0)
+            if (Page <= 0 || PageSize < 0)
             {
                 return BadRequest("Номер страницы или ее размер не может быть отрицательным,(Отсчет страниц начинается с 1)");
             }
             var Music = await _dbcontext.Music
                  .AsNoTracking()
+                 .Include(m => m.Author)
                  .Skip((Page - 1) * PageSize)
                  .Take(PageSize)
-                 .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt))
+                 .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt,
+                  m.Author != null ? new List<string> { m.Author.Name } : new List<string>()
+                 ))
                  .ToListAsync();
 
             return Music.Count == 0 ? NotFound("Музыка не найдена") : Ok(Music);
         }
 
-        [HttpGet("/GetAlbumMusic")]
-        public async Task<IActionResult> GetAlbumMusic(int Page, int PageSize, Guid AuthorId)
+        [HttpGet("/GetCreatedAuthorMusic")]
+        public async Task<IActionResult> GetCreatedAuthorMusic(int Page, int PageSize, Guid AuthorId)
         {
             if (Page <= 0 || PageSize < 0)
             {
@@ -43,11 +46,12 @@ namespace SoundUp.Controllers
                 return NotFound("Автор не найден");
 
             return Ok(author.CreatedMusics
-                .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt))
+                .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt, new List<string>() { author.Name }))
                  .Skip((Page - 1) * PageSize)
                  .Take(PageSize)
                 .ToList());
         }
+
 
         [HttpGet("/GetPlaylistMusic")]
         public async Task<IActionResult> GetPlayListMusic(int Page, int PageSize, Guid PlaylistId)
@@ -59,6 +63,7 @@ namespace SoundUp.Controllers
             var PlayList = await _dbcontext.PlayLists
                 .AsNoTracking()
                 .Include(p => p.MusicList)
+                .Include(p => p.Creator)
                 .FirstOrDefaultAsync(p => p.Id == PlaylistId);
 
 
@@ -66,7 +71,8 @@ namespace SoundUp.Controllers
                 return NotFound("Плейлист не найден");
 
             return Ok(PlayList.MusicList
-                .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt))
+                .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt,
+                  m.Author != null ? new List<string> { m.Author.Name } : new List<string>()))
                  .Skip((Page - 1) * PageSize)
                  .Take(PageSize)
                 .ToList());
@@ -81,7 +87,7 @@ namespace SoundUp.Controllers
                  .FirstOrDefaultAsync(u => u.Id == UserId);
 
             string UserType = FindedUser is UserAuthor ? "UserAuthor" : "User";
-            
+
             if (FindedUser != null)
             {
                 return Ok(new UserDto(FindedUser.Id, FindedUser.Name, FindedUser.Password, UserType, FindedUser.Avatar, FindedUser.CreatedAt, FindedUser.UpdatedAt));
