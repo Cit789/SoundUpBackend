@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
-using SoundUp;
 using SoundUp.Extensions;
 using SoundUp.Infrastructure;
 using SoundUp.Interfaces.Auth;
+using SoundUp.Interfaces.Repository;
+using SoundUp.Repositories;
+using SoundUp.Repository;
+using SoundUp;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -27,7 +30,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IPasswordHasher,PasswordHasher>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-
+builder.Services.AddTransient<IMusicRepository,MusicRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

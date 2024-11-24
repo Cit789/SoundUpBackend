@@ -32,9 +32,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SoundUp.Controllers.GetRequests",
-    "Method": "Musics",
-    "RelativePath": "GetAllMusic",
+    "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
+    "Method": "AllMusics",
+    "RelativePath": "api/GetRequestsMusic/AllMusics",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -48,14 +48,19 @@
         "Name": "PageSize",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SoundUp.Controllers.GetRequests",
-    "Method": "GetCreatedAuthorMusic",
-    "RelativePath": "GetCreatedAuthorMusic",
+    "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
+    "Method": "CreatedAuthorMusic",
+    "RelativePath": "api/GetRequestsMusic/CreatedAuthorMusic",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -74,14 +79,19 @@
         "Name": "AuthorId",
         "Type": "System.Guid",
         "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SoundUp.Controllers.GetRequests",
-    "Method": "GetPlayListMusic",
-    "RelativePath": "GetPlaylistMusic",
+    "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
+    "Method": "PlayListMusic",
+    "RelativePath": "api/GetRequestsMusic/PlayListMusic",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -100,14 +110,19 @@
         "Name": "PlaylistId",
         "Type": "System.Guid",
         "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SoundUp.Controllers.GetRequests",
+    "ContainingType": "SoundUp.Controllers.GetRequestsUsers",
     "Method": "GetUser",
-    "RelativePath": "GetUser",
+    "RelativePath": "Get",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

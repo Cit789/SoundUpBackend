@@ -5,10 +5,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/GetAllMusic": {
+    "/api/GetRequestsMusic/AllMusics": {
       "get": {
         "tags": [
-          "GetRequests"
+          "GetRequestsMusic"
         ],
         "parameters": [
           {
@@ -26,6 +26,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
@@ -35,10 +43,10 @@
         }
       }
     },
-    "/GetCreatedAuthorMusic": {
+    "/api/GetRequestsMusic/CreatedAuthorMusic": {
       "get": {
         "tags": [
-          "GetRequests"
+          "GetRequestsMusic"
         ],
         "parameters": [
           {
@@ -64,6 +72,14 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
@@ -73,10 +89,10 @@
         }
       }
     },
-    "/GetPlaylistMusic": {
+    "/api/GetRequestsMusic/PlayListMusic": {
       "get": {
         "tags": [
-          "GetRequests"
+          "GetRequestsMusic"
         ],
         "parameters": [
           {
@@ -102,6 +118,14 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
@@ -111,10 +135,10 @@
         }
       }
     },
-    "/GetUser": {
+    "/Get": {
       "get": {
         "tags": [
-          "GetRequests"
+          "GetRequestsUsers"
         ],
         "parameters": [
           {

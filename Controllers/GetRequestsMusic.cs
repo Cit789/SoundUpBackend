@@ -1,0 +1,60 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SoundUp.Interfaces.Repository;
+
+
+namespace SoundUp.Controllers
+{
+    [Controller]
+    [Route("api/[controller]/[action]")]
+    public class GetRequestsMusic(ApplicationDbContext dbContext,IMusicRepository musicRepository) : ControllerBase
+    {
+       
+        private readonly ApplicationDbContext _dbcontext = dbContext;
+        private readonly IMusicRepository _musicRepository = musicRepository;
+        private const string PAGINATION_ERROR = "Номер страницы или ее размер не может быть отрицательным,(Отсчет страниц начинается с 1)";
+        private const string MUSIC_NOTFOUND_ERROR = "музыка не найдена";
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> AllMusics(int Page, int PageSize,Guid UserId)
+        {
+            if (Page <= 0 || PageSize < 0)
+            {
+                return BadRequest(PAGINATION_ERROR);
+            }
+            var Music = await _musicRepository.GetAllMusicWithPagination(Page,PageSize,UserId);
+
+            return Music.Count == 0 ? NotFound(MUSIC_NOTFOUND_ERROR) : Ok(Music);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreatedAuthorMusic(int Page, int PageSize, Guid AuthorId,Guid UserId)
+        {
+            if (Page <= 0 || PageSize < 0)
+            {
+                return BadRequest(PAGINATION_ERROR);
+            }
+            var Musics = await _musicRepository.GetCreatedAuthorMusic(Page,PageSize,AuthorId,UserId);
+            return Musics.Count == 0 ? NotFound(MUSIC_NOTFOUND_ERROR) : Ok(Musics);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> PlayListMusic(int Page, int PageSize, Guid PlaylistId, Guid UserId)
+        {
+            if (Page <= 0 || PageSize < 0)
+            {
+                return BadRequest(PAGINATION_ERROR);
+            }
+
+            var Musics = await _musicRepository.GetMusicInPlaylist(Page, PageSize, PlaylistId, UserId);
+            return Musics.Count == 0 ? NotFound(MUSIC_NOTFOUND_ERROR) : Ok(Musics);
+        }
+
+
+       
+
+
+    }
+}
