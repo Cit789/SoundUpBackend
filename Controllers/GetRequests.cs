@@ -21,11 +21,10 @@ namespace SoundUp.Controllers
             var Music = await _dbcontext.Music
                  .AsNoTracking()
                  .Include(m => m.Author)
+                 .Include(m => m.Album)
                  .Skip((Page - 1) * PageSize)
                  .Take(PageSize)
-                 .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt,
-                  m.Author != null ? new List<string> { m.Author.Name } : new List<string>()
-                 ))
+                  .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.AlbumId, m.Album!.Name, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt,new List<string> { m.Author!.Name }))
                  .ToListAsync();
 
             return Music.Count == 0 ? NotFound("Музыка не найдена") : Ok(Music);
@@ -41,13 +40,14 @@ namespace SoundUp.Controllers
             var author = await _dbcontext.UserAuthors
             .AsNoTracking()
             .Include(a => a.CreatedMusics)
+            .Include(a => a.Albums)
             .FirstOrDefaultAsync(x => x.Id == AuthorId);
 
             if (author == null)
                 return NotFound("Автор не найден");
 
             return Ok(author.CreatedMusics
-                .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt, new List<string>() { author.Name }))
+                .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.AlbumId,m.Album!.Name, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt, [author.Name]))
                  .Skip((Page - 1) * PageSize)
                  .Take(PageSize)
                 .ToList());
@@ -72,8 +72,7 @@ namespace SoundUp.Controllers
                 return NotFound("Плейлист не найден");
 
             return Ok(PlayList.MusicList
-                .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt,
-                  m.Author != null ? new List<string> { m.Author.Name } : new List<string>()))
+                .Select(m => new MusicDto(m.Id, m.AuthorId, m.MusicAudioId,m.AlbumId,m.Album!.Name, m.Name, m.Avatar, m.Category, m.CreatedAt, m.UpdatedAt,[m.Author!.Name]))
                  .Skip((Page - 1) * PageSize)
                  .Take(PageSize)
                 .ToList());

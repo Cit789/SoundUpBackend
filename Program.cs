@@ -1,4 +1,4 @@
-
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
 using SoundUp;
 using SoundUp.Extensions;
@@ -42,7 +42,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCookiePolicy(new CookiePolicyOptions()
+{ 
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always,
+});
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

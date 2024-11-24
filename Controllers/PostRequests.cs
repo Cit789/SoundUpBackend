@@ -115,7 +115,9 @@ namespace SoundUp.Controllers
 
             await _dbcontext.UserAuthors.AddAsync(NewAuthor);
             var Count = await _dbcontext.SaveChangesAsync();
-            return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
+            var token = _jwtProvaider.GenerateToken(NewAuthor);
+            HttpContext.Response.Cookies.Append("cookie", token);
+            return Count > 0 ?  Ok(token): StatusCode(500, "Ошибка в сохранении данных");
         }
 
         
@@ -149,6 +151,8 @@ namespace SoundUp.Controllers
 
             await _dbcontext.Users.AddAsync(NewUser);
             var Count = await _dbcontext.SaveChangesAsync();
+            var token = _jwtProvaider.GenerateToken(NewUser);
+            HttpContext.Response.Cookies.Append("cookie", token);
             return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
@@ -178,7 +182,7 @@ namespace SoundUp.Controllers
             return Count > 0 ? StatusCode(500, "Ошибка в сохранении данных") : Ok();
         }
 
-        [Authorize]
+       
         [HttpPost("/Login")]
         public async Task<IActionResult> Login([FromBody] LoginUserRequest user)
         {
@@ -188,6 +192,7 @@ namespace SoundUp.Controllers
             if (FindedUser != null && _passwordHasher.Verify(user.Password, FindedUser.Password))
             {
                 var token = _jwtProvaider.GenerateToken(FindedUser);
+                HttpContext.Response.Cookies.Append("cookie",token);
                 return Ok(token);
             }
 
