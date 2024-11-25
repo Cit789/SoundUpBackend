@@ -1,4 +1,5 @@
-﻿using SoundUp.Models;
+﻿using SoundUp.Contracts;
+using SoundUp.Models;
 
 namespace SoundUp.Interfaces.Repository
 {
@@ -6,6 +7,8 @@ namespace SoundUp.Interfaces.Repository
     {
         Task<BaseUser?> GetUserById(Guid Id);
         Task<T?> GetUserById<T>(Guid Id) where T : BaseUser;
-        Task<UserAuthor?> GetAuthorWithAlbumAndCreatedMusics(Guid Id);
+        
+        Task<BaseUser?> GetUserByUserName(string UserName);
+        Task<string> CreateUser<T>(CreateAuthorOrUserRequest createUserRequest) where T : BaseUser, new();
     }
 }

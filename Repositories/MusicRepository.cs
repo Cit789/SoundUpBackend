@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using SoundUp.Contracts;
 using SoundUp.Dto;
 using SoundUp.Interfaces.Repository;
 using SoundUp.Models;
@@ -7,13 +7,13 @@ using SoundUp.Models;
 
 namespace SoundUp.Repository
 {
-    public class MusicRepository(ApplicationDbContext dbcontext, IUserRepository usersRepository) : IMusicRepository
+    public class MusicRepository(ApplicationDbContext dbcontext,IAuthorRepository authorRepository) : IMusicRepository
     {
         private readonly ApplicationDbContext _dbcontext = dbcontext;
-        private readonly IUserRepository _usersRepository = usersRepository;
+        private readonly IAuthorRepository _authorRepository = authorRepository;
         public static MusicDto ToMusicDto(Music m, Guid UserId)
         {
-            var result =
+            return
                      new MusicDto(m.Id,
                      m.AuthorId,
                      m.MusicAudioId,
@@ -26,7 +26,7 @@ namespace SoundUp.Repository
                      m.CreatedAt,
                      m.UpdatedAt,
                      [m.Author?.Name]);
-            return result;
+            
         }
 
         public async Task<List<MusicDto>> GetAllMusicWithPagination(int Page, int PageSize, Guid UserId)
@@ -73,7 +73,7 @@ namespace SoundUp.Repository
         public async Task<List<MusicDto>> GetCreatedAuthorMusic(int Page, int PageSize, Guid AuthorId, Guid UserId)
         {
             
-            var Author = await _usersRepository.GetAuthorWithAlbumAndCreatedMusics(AuthorId);
+            var Author = await _authorRepository.GetAuthorWithAlbumAndCreatedMusics(AuthorId);
             
             if (Author == null) return [];
 
@@ -83,6 +83,32 @@ namespace SoundUp.Repository
                 .Skip((Page - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
+        }
+
+        public async Task<bool> CreateMusic(CreateMusicRequest RequestMusic)
+        {
+            Guid MusicId = Guid.NewGuid();
+            Guid MusicAudioId = Guid.NewGuid();
+            var NewMusic = new Music()
+            {
+                Id = MusicId,
+                AuthorId = RequestMusic.AuthorId,
+                AlbumId = RequestMusic.AlbumId,
+                Name = RequestMusic.Name,
+                Avatar = RequestMusic.Avatar,
+                Category = RequestMusic.Category,
+                MusicAudioId = MusicAudioId,
+                MusicAudio = new MusicAudio()
+                {
+                    Id = MusicAudioId,
+                    MusicId = MusicId,
+                    Audio = RequestMusic.Audio
+                }
+            };
+
+            await _dbcontext.Music.AddAsync(NewMusic);
+            var Count = await _dbcontext.SaveChangesAsync();
+            return Count != 0;
         }
     }
 }

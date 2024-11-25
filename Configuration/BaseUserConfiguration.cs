@@ -14,6 +14,8 @@ namespace SoundUp.Configuration
                 .HasMany(b => b.Favorites)
                 .WithMany(m => m.WhoFavorited);
 
+            
+
             builder
                 .HasMany(b => b.Favorites)
                 .WithMany(m => m.WhoFavorited);

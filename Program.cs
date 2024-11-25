@@ -32,7 +32,9 @@ builder.Services.AddScoped<IPasswordHasher,PasswordHasher>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddTransient<IMusicRepository,MusicRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
-
+builder.Services.AddTransient<IAlbumRepository, AlbumRepository>();
+builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+builder.Services.AddTransient<IPlaylistRepository, PlaylistRepository>();
 var app = builder.Build();
 
 app.UseCors(builder => builder

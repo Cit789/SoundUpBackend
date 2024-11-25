@@ -157,10 +157,10 @@
         }
       }
     },
-    "/PostAlbum": {
+    "/api/PostRequestsAlbum/PostAlbum": {
       "post": {
         "tags": [
-          "PostRequests"
+          "PostRequestsAlbum"
         ],
         "requestBody": {
           "content": {
@@ -188,10 +188,10 @@
         }
       }
     },
-    "/PostMusic": {
+    "/api/PostRequestsMusic/PostMusic": {
       "post": {
         "tags": [
-          "PostRequests"
+          "PostRequestsMusic"
         ],
         "requestBody": {
           "content": {
@@ -219,72 +219,10 @@
         }
       }
     },
-    "/PostAuthor": {
+    "/api/PostRequestsPlaylist/PostPlaylist": {
       "post": {
         "tags": [
-          "PostRequests"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/PostDefaultUser": {
-      "post": {
-        "tags": [
-          "PostRequests"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/PostPlaylist": {
-      "post": {
-        "tags": [
-          "PostRequests"
+          "PostRequestsPlaylist"
         ],
         "requestBody": {
           "content": {
@@ -312,10 +250,41 @@
         }
       }
     },
-    "/Login": {
+    "/api/PostRequestsUsers/PostUser": {
       "post": {
         "tags": [
-          "PostRequests"
+          "PostRequestsUsers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PostRequestsUsers/Login": {
+      "post": {
+        "tags": [
+          "PostRequestsUsers"
         ],
         "requestBody": {
           "content": {
@@ -439,7 +408,7 @@
       "CreateAlbumRequest": {
         "type": "object",
         "properties": {
-          "name": {
+          "albumName": {
             "type": "string",
             "nullable": true
           },
@@ -470,6 +439,10 @@
             "nullable": true
           },
           "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "userType": {
             "type": "string",
             "nullable": true
           }
