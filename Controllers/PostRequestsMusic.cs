@@ -13,6 +13,7 @@ namespace SoundUp.Controllers
 
         private readonly IAuthorRepository _authorRepository = authorRepository;
         private readonly IMusicRepository _musicRepository = musicRepository;
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> PostMusic([FromBody] CreateMusicRequest RequestMusic)

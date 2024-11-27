@@ -19,6 +19,7 @@ namespace SoundUp.Migrations
                     Avatar = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
+                    RefreshTokenId = table.Column<Guid>(type: "uuid", nullable: false),
                     ListenHistoryId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -87,6 +88,27 @@ namespace SoundUp.Migrations
                     table.ForeignKey(
                         name: "FK_PlayLists_AllUsers_CreatorId",
                         column: x => x.CreatorId,
+                        principalTable: "AllUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Token = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExpiryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_AllUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AllUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -262,6 +284,12 @@ namespace SoundUp.Migrations
                 name: "IX_PlayLists_CreatorId",
                 table: "PlayLists",
                 column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                table: "RefreshTokens",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -278,6 +306,9 @@ namespace SoundUp.Migrations
 
             migrationBuilder.DropTable(
                 name: "MusicPlaylist");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "ListenHistories");

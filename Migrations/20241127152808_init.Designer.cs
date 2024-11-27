@@ -12,7 +12,7 @@ using SoundUp;
 namespace SoundUp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241119161431_init")]
+    [Migration("20241127152808_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -127,6 +127,9 @@ namespace SoundUp.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid>("RefreshTokenId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -260,6 +263,33 @@ namespace SoundUp.Migrations
                     b.ToTable("PlayLists");
                 });
 
+            modelBuilder.Entity("SoundUp.Models.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("SoundUp.Models.User", b =>
                 {
                     b.HasBaseType("SoundUp.Models.BaseUser");
@@ -382,6 +412,17 @@ namespace SoundUp.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("SoundUp.Models.RefreshToken", b =>
+                {
+                    b.HasOne("SoundUp.Models.BaseUser", "User")
+                        .WithOne("RefreshToken")
+                        .HasForeignKey("SoundUp.Models.RefreshToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SoundUp.Models.Album", b =>
                 {
                     b.Navigation("AlbumMusic");
@@ -392,6 +433,8 @@ namespace SoundUp.Migrations
                     b.Navigation("ListenHistory");
 
                     b.Navigation("Playlists");
+
+                    b.Navigation("RefreshToken");
                 });
 
             modelBuilder.Entity("SoundUp.Models.Music", b =>

@@ -1,37 +1,5 @@
 [
   {
-    "ContainingType": "SoundUp.Controllers.PutRequests",
-    "Method": "PutMusicInFavourite",
-    "RelativePath": "AddMusicInFavourites",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "addMusicInFavouritesRequest",
-        "Type": "SoundUp.Contracts.AddMusicInFavouritesRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SoundUp.Controllers.PutRequests",
-    "Method": "PutMusicInPlaylist",
-    "RelativePath": "AddMusicInPlaylist",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "addMusicInPlaylistRequest",
-        "Type": "SoundUp.Contracts.AddMusicInPlaylistRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
     "Method": "AllMusics",
     "RelativePath": "api/GetRequestsMusic/AllMusics",
@@ -169,6 +137,22 @@
   },
   {
     "ContainingType": "SoundUp.Controllers.PostRequestsUsers",
+    "Method": "GetNewRefreshAndJwtToken",
+    "RelativePath": "api/PostRequestsUsers/GetNewRefreshAndJwtToken",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "regenerateTokensRequest",
+        "Type": "SoundUp.Contracts.GetRegenerateTokensRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PostRequestsUsers",
     "Method": "Login",
     "RelativePath": "api/PostRequestsUsers/Login",
     "HttpMethod": "POST",
@@ -200,9 +184,41 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SoundUp.Controllers.PutRequestsMusic",
+    "Method": "PutMusicInFavourite",
+    "RelativePath": "api/PutRequestsMusic/PutMusicInFavourite",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addMusicInFavouritesRequest",
+        "Type": "SoundUp.Contracts.AddMusicInFavouritesRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PutRequestsMusic",
+    "Method": "PutMusicInPlaylist",
+    "RelativePath": "api/PutRequestsMusic/PutMusicInPlaylist",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addMusicInPlaylistRequest",
+        "Type": "SoundUp.Contracts.AddMusicInPlaylistRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoundUp.Controllers.GetRequestsUsers",
     "Method": "GetUser",
-    "RelativePath": "Get",
+    "RelativePath": "User",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

@@ -135,7 +135,7 @@
         }
       }
     },
-    "/Get": {
+    "/User": {
       "get": {
         "tags": [
           "GetRequestsUsers"
@@ -312,10 +312,41 @@
         }
       }
     },
-    "/AddMusicInPlaylist": {
+    "/api/PostRequestsUsers/GetNewRefreshAndJwtToken": {
+      "post": {
+        "tags": [
+          "PostRequestsUsers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRegenerateTokensRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRegenerateTokensRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRegenerateTokensRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PutRequestsMusic/PutMusicInPlaylist": {
       "put": {
         "tags": [
-          "PutRequests"
+          "PutRequestsMusic"
         ],
         "requestBody": {
           "content": {
@@ -343,10 +374,10 @@
         }
       }
     },
-    "/AddMusicInFavourites": {
+    "/api/PutRequestsMusic/PutMusicInFavourite": {
       "put": {
         "tags": [
-          "PutRequests"
+          "PutRequestsMusic"
         ],
         "requestBody": {
           "content": {
@@ -492,6 +523,24 @@
           "creatorId": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRegenerateTokensRequest": {
+        "required": [
+          "refreshToken",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "refreshToken": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false

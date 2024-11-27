@@ -10,5 +10,6 @@ namespace SoundUp.Interfaces.Repository
         Task<List<MusicDto>> GetMusicInPlaylist(int Page,int PageSize, Guid PlaylistId,Guid UserId);
         public Task<List<MusicDto>> GetCreatedAuthorMusic(int Page, int PageSize, Guid AuthorId, Guid UserId);
         Task<bool> CreateMusic(CreateMusicRequest RequestMusic);
+        Task<Music?> GetMusicById(Guid MusicId);
     }
 }

@@ -35,6 +35,8 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IAlbumRepository, AlbumRepository>();
 builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
 builder.Services.AddTransient<IPlaylistRepository, PlaylistRepository>();
+builder.Services.AddTransient<IRefreshTokenProvider, RefreshTokenProvider>();
+builder.Services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
 var app = builder.Build();
 
 app.UseCors(builder => builder

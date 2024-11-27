@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SoundUp.Dto;
 using SoundUp.Interfaces.Repository;
 using SoundUp.Models;
@@ -15,7 +14,7 @@ namespace SoundUp.Controllers
         private readonly ApplicationDbContext _dbcontext = dbContext;
         private readonly IUserRepository _userRepository = userRepository;
 
-        [HttpGet("/Get")]
+        [HttpGet]
         public async Task<IActionResult> GetUser(Guid UserId)
         {
            var FindedUser = await _userRepository.GetUserById(UserId);

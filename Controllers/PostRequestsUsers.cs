@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SoundUp.Contracts;
+using SoundUp.Dto;
 using SoundUp.Interfaces.Auth;
 using SoundUp.Interfaces.Repository;
 using SoundUp.Models;
@@ -11,30 +14,33 @@ namespace SoundUp.Controllers
     [Route("api/[controller]/[action]")]
     public class PostRequestsUsers(
         IUserRepository userRepository,
+        IRefreshTokenRepository refreshTokenRepository,
         IPasswordHasher passwordHasher,
+        IRefreshTokenProvider refreshTokenProvider,
         IJwtProvider jwtProvider) : ControllerBase
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IPasswordHasher _passwordHasher = passwordHasher;
         private readonly IJwtProvider _jwtProvaider = jwtProvider;
-
+        private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
+        private readonly IRefreshTokenProvider _refreshTokenProvider = refreshTokenProvider;
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] CreateAuthorOrUserRequest createUserRequest)
         {
 
-            string token = string.Empty;
+            TokensDto tokens = new(string.Empty,string.Empty);
 
             if (createUserRequest.UserType == "UserAuthor")
-                token = await _userRepository.CreateUser<UserAuthor>(createUserRequest);
+                tokens = await _userRepository.CreateUser<UserAuthor>(createUserRequest);
 
             else if (createUserRequest.UserType == "DefaultUser")
-                token = await _userRepository.CreateUser<UserAuthor>(createUserRequest);
+                tokens = await _userRepository.CreateUser<UserAuthor>(createUserRequest);
 
-            if (!string.IsNullOrEmpty(token))
+            if (tokens.RefreshToken != string.Empty && tokens.JwtToken != string.Empty)
             {
 
-                HttpContext.Response.Cookies.Append("cookie", token);
-                return Ok("Пользователь создан");
+                HttpContext.Response.Cookies.Append("cookie", tokens.JwtToken);
+                return Ok(tokens);
             }
             return StatusCode(500, "Ошибка сохранения данных");
         }
@@ -45,13 +51,35 @@ namespace SoundUp.Controllers
 
             if (FindedUser != null && _passwordHasher.Verify(user.Password, FindedUser.Password))
             {
-                var token = _jwtProvaider.GenerateToken(FindedUser);
-                HttpContext.Response.Cookies.Append("cookie", token);
-                return Ok(token);
+                var JwtToken = _jwtProvaider.GenerateToken(FindedUser);
+                var RefreshToken = await _refreshTokenRepository.UpdateToken(FindedUser.Id);
+                
+                HttpContext.Response.Cookies.Append("cookie", JwtToken);
+                return Ok(new TokensDto(RefreshToken,JwtToken));
             }
 
-            return NotFound("Ошибка логина");
+            return Unauthorized("Ошибка логина");
 
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> GetNewRefreshAndJwtToken([FromBody] GetRegenerateTokensRequest regenerateTokensRequest)
+        {
+            var User = await _userRepository.GetUserById(regenerateTokensRequest.UserId);
+
+            if (!await _refreshTokenRepository.IsValidRefreshToken(regenerateTokensRequest.RefreshToken)) return Unauthorized("Refresh токен невалиден");
+
+            var RefreshToken = await _refreshTokenRepository.UpdateToken(regenerateTokensRequest.UserId);
+
+            if (string.IsNullOrEmpty(RefreshToken) || User == null) return NotFound("Пользователь не существует, либо у него нет токена");
+            var JwtToken = _jwtProvaider.GenerateToken(User);
+            
+            HttpContext.Response.Cookies.Append("cookie", JwtToken);
+
+            return Ok(new TokensDto(RefreshToken,JwtToken));
+
+
+        }
+
     }
 }

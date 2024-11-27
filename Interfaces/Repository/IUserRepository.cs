@@ -1,4 +1,5 @@
 ﻿using SoundUp.Contracts;
+using SoundUp.Dto;
 using SoundUp.Models;
 
 namespace SoundUp.Interfaces.Repository
@@ -9,6 +10,6 @@ namespace SoundUp.Interfaces.Repository
         Task<T?> GetUserById<T>(Guid Id) where T : BaseUser;
         
         Task<BaseUser?> GetUserByUserName(string UserName);
-        Task<string> CreateUser<T>(CreateAuthorOrUserRequest createUserRequest) where T : BaseUser, new();
+        Task<TokensDto> CreateUser<T>(CreateAuthorOrUserRequest createUserRequest) where T : BaseUser, new();
     }
 }

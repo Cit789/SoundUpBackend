@@ -44,7 +44,9 @@ namespace SoundUp.Repository
 
         public async Task<Music?> GetMusicById(Guid MusicId)
         {
-            return await _dbcontext.Music.FirstOrDefaultAsync(m => m.Id == MusicId);
+            return await _dbcontext.Music
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == MusicId);
         }
 
         public async Task<List<MusicDto>> GetMusicInPlaylist(int Page, int PageSize, Guid PlaylistId, Guid UserId)
