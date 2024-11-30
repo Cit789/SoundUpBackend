@@ -16,6 +16,7 @@ namespace SoundUp
         public DbSet<UserAuthor> UserAuthors { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<ListenHistory> ListenHistories { get; set; } = null!;
+        public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AuthorConfiguration());
@@ -25,6 +26,7 @@ namespace SoundUp
             modelBuilder.ApplyConfiguration(new PlaylistConfiguration());
             modelBuilder.ApplyConfiguration(new MusicAudioConfiguration());
             modelBuilder.ApplyConfiguration(new ListenHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
             base.OnModelCreating(modelBuilder);
         }
         

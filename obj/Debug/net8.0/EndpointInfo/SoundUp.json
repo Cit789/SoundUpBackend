@@ -5,10 +5,10 @@
     "version": "1.0"
   },
   "paths": {
-    "/GetAllMusic": {
+    "/api/GetRequestsMusic/AllMusics": {
       "get": {
         "tags": [
-          "GetRequests"
+          "GetRequestsMusic"
         ],
         "parameters": [
           {
@@ -26,6 +26,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
@@ -35,10 +43,10 @@
         }
       }
     },
-    "/GetCreatedAuthorMusic": {
+    "/api/GetRequestsMusic/CreatedAuthorMusic": {
       "get": {
         "tags": [
-          "GetRequests"
+          "GetRequestsMusic"
         ],
         "parameters": [
           {
@@ -64,6 +72,14 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
@@ -73,10 +89,10 @@
         }
       }
     },
-    "/GetPlaylistMusic": {
+    "/api/GetRequestsMusic/PlayListMusic": {
       "get": {
         "tags": [
-          "GetRequests"
+          "GetRequestsMusic"
         ],
         "parameters": [
           {
@@ -102,6 +118,14 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
@@ -111,10 +135,47 @@
         }
       }
     },
-    "/GetUser": {
+    "/api/GetRequestsMusic/GetMusicById": {
       "get": {
         "tags": [
-          "GetRequests"
+          "GetRequestsMusic"
+        ],
+        "parameters": [
+          {
+            "name": "MusicId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "WithAudio",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetRequestsUsers/GetUser": {
+      "get": {
+        "tags": [
+          "GetRequestsUsers"
         ],
         "parameters": [
           {
@@ -133,10 +194,10 @@
         }
       }
     },
-    "/PostAlbum": {
+    "/api/PostRequestsAlbum/CreateAlbum": {
       "post": {
         "tags": [
-          "PostRequests"
+          "PostRequestsAlbum"
         ],
         "requestBody": {
           "content": {
@@ -164,10 +225,10 @@
         }
       }
     },
-    "/PostMusic": {
+    "/api/PostRequestsMusic/CreateMusic": {
       "post": {
         "tags": [
-          "PostRequests"
+          "PostRequestsMusic"
         ],
         "requestBody": {
           "content": {
@@ -195,72 +256,10 @@
         }
       }
     },
-    "/PostAuthor": {
+    "/api/PostRequestsPlaylist/PostPlaylist": {
       "post": {
         "tags": [
-          "PostRequests"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/PostDefaultUser": {
-      "post": {
-        "tags": [
-          "PostRequests"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/PostPlaylist": {
-      "post": {
-        "tags": [
-          "PostRequests"
+          "PostRequestsPlaylist"
         ],
         "requestBody": {
           "content": {
@@ -288,10 +287,41 @@
         }
       }
     },
-    "/Login": {
+    "/api/PostRequestsUsers/CreateUser": {
       "post": {
         "tags": [
-          "PostRequests"
+          "PostRequestsUsers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PostRequestsUsers/Login": {
+      "post": {
+        "tags": [
+          "PostRequestsUsers"
         ],
         "requestBody": {
           "content": {
@@ -319,10 +349,41 @@
         }
       }
     },
-    "/AddMusicInPlaylist": {
+    "/api/PostRequestsUsers/GetNewRefreshAndJwtToken": {
+      "post": {
+        "tags": [
+          "PostRequestsUsers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRegenerateTokensRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRegenerateTokensRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRegenerateTokensRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PutRequestsMusic/PutMusicInPlaylist": {
       "put": {
         "tags": [
-          "PutRequests"
+          "PutRequestsMusic"
         ],
         "requestBody": {
           "content": {
@@ -350,10 +411,10 @@
         }
       }
     },
-    "/AddMusicInFavourites": {
+    "/api/PutRequestsMusic/PutMusicInFavourite": {
       "put": {
         "tags": [
-          "PutRequests"
+          "PutRequestsMusic"
         ],
         "requestBody": {
           "content": {
@@ -415,7 +476,7 @@
       "CreateAlbumRequest": {
         "type": "object",
         "properties": {
-          "name": {
+          "albumName": {
             "type": "string",
             "nullable": true
           },
@@ -446,6 +507,10 @@
             "nullable": true
           },
           "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "userType": {
             "type": "string",
             "nullable": true
           }
@@ -495,6 +560,24 @@
           "creatorId": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetRegenerateTokensRequest": {
+        "required": [
+          "refreshToken",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "refreshToken": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false

@@ -15,6 +15,7 @@ namespace SoundUp.Configuration
                 .WithOne(m => m.Author)
                 .HasForeignKey(m => m.AuthorId);
 
+
             builder
                 .HasMany(m => m.Albums)
                 .WithOne(al => al.Author)
