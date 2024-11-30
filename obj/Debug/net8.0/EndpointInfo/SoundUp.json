@@ -135,7 +135,44 @@
         }
       }
     },
-    "/User": {
+    "/api/GetRequestsMusic/GetMusicById": {
+      "get": {
+        "tags": [
+          "GetRequestsMusic"
+        ],
+        "parameters": [
+          {
+            "name": "MusicId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "WithAudio",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetRequestsUsers/GetUser": {
       "get": {
         "tags": [
           "GetRequestsUsers"
@@ -157,7 +194,7 @@
         }
       }
     },
-    "/api/PostRequestsAlbum/PostAlbum": {
+    "/api/PostRequestsAlbum/CreateAlbum": {
       "post": {
         "tags": [
           "PostRequestsAlbum"
@@ -188,7 +225,7 @@
         }
       }
     },
-    "/api/PostRequestsMusic/PostMusic": {
+    "/api/PostRequestsMusic/CreateMusic": {
       "post": {
         "tags": [
           "PostRequestsMusic"
@@ -250,7 +287,7 @@
         }
       }
     },
-    "/api/PostRequestsUsers/PostUser": {
+    "/api/PostRequestsUsers/CreateUser": {
       "post": {
         "tags": [
           "PostRequestsUsers"

@@ -7,11 +7,11 @@ namespace SoundUp.Controllers
 {
 
     [Controller]
-    [Route("/User")]
-    public class GetRequestsUsers(ApplicationDbContext dbContext, IUserRepository userRepository) : ControllerBase
+    [Route("/api/[controller]/[action]")]
+    public class GetRequestsUsers(IUserRepository userRepository) : ControllerBase
     {
 
-        private readonly ApplicationDbContext _dbcontext = dbContext;
+        
         private readonly IUserRepository _userRepository = userRepository;
 
         [HttpGet]

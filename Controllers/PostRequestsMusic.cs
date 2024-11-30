@@ -16,10 +16,10 @@ namespace SoundUp.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PostMusic([FromBody] CreateMusicRequest RequestMusic)
+        public async Task<IActionResult> CreateMusic([FromBody] CreateMusicRequest RequestMusic)
         {
             if (await _authorRepository.IsAuthorCreateThisMusic(RequestMusic.AuthorId, RequestMusic.Name)) return Conflict("Музыка с таким именем уже существует");
-
+            else if (!await _authorRepository.IsAuthorHasAlbum(RequestMusic.AuthorId, RequestMusic.AlbumId)) return Conflict("Этот албьом не принадлежит данному автору");
             return await _musicRepository.CreateMusic(RequestMusic) ? Ok("Музыка создана") : StatusCode(500, "Ошибка сохранения данных");
         }
 

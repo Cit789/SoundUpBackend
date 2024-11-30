@@ -30,6 +30,17 @@ namespace SoundUp.Repositories
 
             return Author.Albums.Any(a => a.Name == AlbumName);
         }
+        public async Task<bool> IsAuthorHasAlbum(Guid AuthorId,Guid AlbumId)
+        {
+            var Author = await _dbcontext.UserAuthors
+                .AsNoTracking()
+                .Include(a => a.Albums)
+                .FirstOrDefaultAsync(a => a.Id == AuthorId);
+
+            if (Author == null) return false;
+
+            return Author.Albums.Any(a => a.Id == AlbumId);
+        }
 
         public async Task<bool> IsAuthorCreateThisMusic(Guid AuthorId,string MusicName)
         {
@@ -42,5 +53,7 @@ namespace SoundUp.Repositories
 
             return Author.Albums.Any(a => a.Name == MusicName);
         }
+        
+
     }
 }

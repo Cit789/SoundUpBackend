@@ -28,7 +28,7 @@ namespace SoundUp.Repositories
 
             
            User.RefreshToken.Token = NewToken;
-           User.RefreshToken.ExpiryDate = DateTime.UtcNow.AddDays(7);
+           User.RefreshToken.ExpiryDate = DateTime.UtcNow.AddDays(10);
            await _dbcontext.SaveChangesAsync();
            return NewToken;
 

@@ -14,7 +14,7 @@ namespace SoundUp.Controllers
         private readonly IAuthorRepository _authorRepository = authorRepository;
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> PostAlbum([FromBody] CreateAlbumRequest RequestAlbum)
+        public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumRequest RequestAlbum)
         {
 
             if (await _authorRepository.IsAuthorHasAlbum(RequestAlbum.AuthorId, RequestAlbum.AlbumName)) return Conflict("Альбом с таким именем уже существует");

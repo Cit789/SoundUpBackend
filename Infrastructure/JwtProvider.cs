@@ -23,7 +23,7 @@ namespace SoundUp.Infrastructure
             var token = new JwtSecurityToken(
                 claims: claims,
                 signingCredentials: SigningCredentials,
-                expires: DateTime.UtcNow.AddSeconds(_options.ExpiresHours));
+                expires: DateTime.UtcNow.AddHours(_options.ExpiresHours));
             var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
             return tokenValue;
         }

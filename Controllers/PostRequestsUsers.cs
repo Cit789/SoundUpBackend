@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Authorization;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using SoundUp.Contracts;
 using SoundUp.Dto;
@@ -16,19 +15,20 @@ namespace SoundUp.Controllers
         IUserRepository userRepository,
         IRefreshTokenRepository refreshTokenRepository,
         IPasswordHasher passwordHasher,
-        IRefreshTokenProvider refreshTokenProvider,
         IJwtProvider jwtProvider) : ControllerBase
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IPasswordHasher _passwordHasher = passwordHasher;
         private readonly IJwtProvider _jwtProvaider = jwtProvider;
         private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
-        private readonly IRefreshTokenProvider _refreshTokenProvider = refreshTokenProvider;
-        [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] CreateAuthorOrUserRequest createUserRequest)
-        {
 
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromBody] CreateAuthorOrUserRequest createUserRequest)
+        {
+            var IsUserCreated = await _userRepository.GetUserByUserName(createUserRequest.Name);
             TokensDto tokens = new(string.Empty,string.Empty);
+
+            if (IsUserCreated != null) return Conflict("Пользователь с этим именем уже создан");
 
             if (createUserRequest.UserType == "UserAuthor")
                 tokens = await _userRepository.CreateUser<UserAuthor>(createUserRequest);
