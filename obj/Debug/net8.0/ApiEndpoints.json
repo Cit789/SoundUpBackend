@@ -1,8 +1,55 @@
 [
   {
+    "ContainingType": "SoundUp.Controllers.GetRequestsAlbum",
+    "Method": "AlbumInfoById",
+    "RelativePath": "api/GetRequestsAlbum/AlbumInfoById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
-    "Method": "AllMusics",
-    "RelativePath": "api/GetRequestsMusic/AllMusics",
+    "Method": "GetAlbumMusic",
+    "RelativePath": "api/GetRequestsMusic/GetAlbumMusic",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "AlbumId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
+    "Method": "GetAllMusics",
+    "RelativePath": "api/GetRequestsMusic/GetAllMusics",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -27,8 +74,8 @@
   },
   {
     "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
-    "Method": "CreatedAuthorMusic",
-    "RelativePath": "api/GetRequestsMusic/CreatedAuthorMusic",
+    "Method": "GetCreatedAuthorMusic",
+    "RelativePath": "api/GetRequestsMusic/GetCreatedAuthorMusic",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -51,6 +98,37 @@
       {
         "Name": "UserId",
         "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
+    "Method": "GetFavouriteMusicById",
+    "RelativePath": "api/GetRequestsMusic/GetFavouriteMusicById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderBy",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -84,8 +162,8 @@
   },
   {
     "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
-    "Method": "PlayListMusic",
-    "RelativePath": "api/GetRequestsMusic/PlayListMusic",
+    "Method": "GetPlayListMusic",
+    "RelativePath": "api/GetRequestsMusic/GetPlayListMusic",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -103,6 +181,53 @@
       {
         "Name": "PlaylistId",
         "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "IsMixed",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequestsPlaylist",
+    "Method": "GetPlaylistById",
+    "RelativePath": "api/GetRequestsPlaylist/GetPlaylistById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PlaylistId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequestsPlaylist",
+    "Method": "GetUserPlaylists",
+    "RelativePath": "api/GetRequestsPlaylist/GetUserPlaylists",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
         "IsRequired": false
       },
       {

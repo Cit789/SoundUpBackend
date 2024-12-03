@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoundUp.Contracts;
+using SoundUp.Dto;
 using SoundUp.Interfaces.Repository;
 using SoundUp.Models;
 
@@ -10,6 +11,10 @@ namespace SoundUp.Repositories
         private readonly ApplicationDbContext _dbcontext = dbcontext;
         private readonly IUserRepository _userRepository = userRepository;
 
+        static public PlaylistDto ToPlaylistDto(Playlist playlist)
+        {
+            return new PlaylistDto(playlist.Id,playlist.Avatar,playlist.Name,playlist.CreatorId,playlist.CreatedAt,playlist.UpdatedAt);
+        }
         public async Task<bool> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
         {
             if(_userRepository.GetUserById(createPlaylistRequest.CreatorId) == null) return false;
@@ -24,6 +29,28 @@ namespace SoundUp.Repositories
             await _dbcontext.PlayLists.AddAsync(playlist);
             var Count = await _dbcontext.SaveChangesAsync();
             return Count != 0;
+        }
+        public async Task<Playlist?> GetPlayListById(Guid PlaylistId)
+        {
+            return await _dbcontext.PlayLists
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == PlaylistId);
+        }
+
+        public async Task<List<PlaylistDto>> GetUserPlaylists(int Page,int PageSize,Guid UserId)
+        {
+           var User = await _dbcontext.AllUsers
+                .AsNoTracking()
+                .Include(u => u.Playlists)
+                .FirstOrDefaultAsync(u => u.Id == UserId);
+
+            if (User == null) return [];
+
+           return User.Playlists
+                .Select(p => ToPlaylistDto(p))
+                .Skip((Page - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
         }
         
     }

@@ -5,7 +5,29 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/GetRequestsMusic/AllMusics": {
+    "/api/GetRequestsAlbum/AlbumInfoById": {
+      "get": {
+        "tags": [
+          "GetRequestsAlbum"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetRequestsMusic/GetAllMusics": {
       "get": {
         "tags": [
           "GetRequestsMusic"
@@ -43,7 +65,7 @@
         }
       }
     },
-    "/api/GetRequestsMusic/CreatedAuthorMusic": {
+    "/api/GetRequestsMusic/GetCreatedAuthorMusic": {
       "get": {
         "tags": [
           "GetRequestsMusic"
@@ -89,7 +111,7 @@
         }
       }
     },
-    "/api/GetRequestsMusic/PlayListMusic": {
+    "/api/GetRequestsMusic/GetPlayListMusic": {
       "get": {
         "tags": [
           "GetRequestsMusic"
@@ -125,6 +147,13 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "IsMixed",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
@@ -162,6 +191,157 @@
             "in": "query",
             "schema": {
               "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetRequestsMusic/GetFavouriteMusicById": {
+      "get": {
+        "tags": [
+          "GetRequestsMusic"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "OrderBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetRequestsMusic/GetAlbumMusic": {
+      "get": {
+        "tags": [
+          "GetRequestsMusic"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "AlbumId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetRequestsPlaylist/GetPlaylistById": {
+      "get": {
+        "tags": [
+          "GetRequestsPlaylist"
+        ],
+        "parameters": [
+          {
+            "name": "PlaylistId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/GetRequestsPlaylist/GetUserPlaylists": {
+      "get": {
+        "tags": [
+          "GetRequestsPlaylist"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],

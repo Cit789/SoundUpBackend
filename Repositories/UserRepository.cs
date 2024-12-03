@@ -8,7 +8,8 @@ using SoundUp.Models;
 
 namespace SoundUp.Repositories
 {
-    public class UserRepository(ApplicationDbContext dbcontext,
+    public class UserRepository(
+        ApplicationDbContext dbcontext,
         IPasswordHasher passwordHasher,
         IRefreshTokenProvider refreshTokenProvider,
         IJwtProvider jwtProvider) : IUserRepository

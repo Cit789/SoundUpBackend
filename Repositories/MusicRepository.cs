@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SoundUp.Contracts;
 using SoundUp.Dto;
 using SoundUp.Interfaces.Repository;
@@ -124,6 +125,44 @@ namespace SoundUp.Repositories
             await _dbcontext.Music.AddAsync(NewMusic);
             var Count = await _dbcontext.SaveChangesAsync();
             return Count != 0;
+        }
+
+        public async Task<List<MusicDto>> GetFavouriteMusicByUserId(int Page, int PageSize, Guid UserId)
+        {
+           var User = await _dbcontext.AllUsers
+                .AsNoTracking()
+                .Include(u => u.Favorites)
+                .ThenInclude(m => m.Album)
+                .Include(u => u.Favorites)
+                .ThenInclude(m => m.Author)
+                .FirstOrDefaultAsync(u => u.Id == UserId);
+            if (User == null) return [];
+
+           
+
+            return User.Favorites
+                .Select(m => ToMusicDto(m,UserId))
+                .Skip((Page - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+        }
+
+        public async Task<List<MusicDto>> GetAlbumMusic(int Page,int PageSize,Guid AlbumId,Guid UserId)
+        {
+            var Album = await _dbcontext.Albums
+                .Include(a => a.AlbumMusic)
+                .ThenInclude(m => m.Author)
+                .Include(a => a.AlbumMusic)
+                .ThenInclude(m => m.WhoFavorited)
+                .FirstOrDefaultAsync(a => a.Id == AlbumId);
+
+            if (Album == null) return [];
+            return Album
+                .AlbumMusic
+                .Select((m) => ToMusicDto(m, UserId))
+                .Skip((Page - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
         }
     }
 }

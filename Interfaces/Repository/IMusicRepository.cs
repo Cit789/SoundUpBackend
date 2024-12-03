@@ -13,5 +13,7 @@ namespace SoundUp.Interfaces.Repository
         Task<Music?> GetMusicById(Guid MusicId);
         Task<MusicDto?> GetMusicByIdInDto(Guid MusicId, Guid UserId);
         Task<string> GetMusicAudio(Guid MusicId);
+        Task<List<MusicDto>> GetFavouriteMusicByUserId(int Page,int PageSize,Guid UserId);
+        Task<List<MusicDto>> GetAlbumMusic(int Page, int PageSize, Guid AlbumId, Guid UserId);
     }
 }

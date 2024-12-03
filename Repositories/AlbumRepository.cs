@@ -1,4 +1,5 @@
-﻿using SoundUp.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using SoundUp.Contracts;
 using SoundUp.Interfaces.Repository;
 using SoundUp.Models;
 
@@ -24,6 +25,12 @@ namespace SoundUp.Repositories
             var Count = await _dbcontext.SaveChangesAsync();
 
             return Count != 0;
+        }
+        public async Task<Album?> GetAlbumById(Guid AlbumId)
+        {
+            return await _dbcontext.Albums
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == AlbumId);
         }
     }
 }
