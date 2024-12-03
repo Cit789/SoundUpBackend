@@ -52,6 +52,9 @@ namespace SoundUp.Repositories
         public async Task<MusicDto?> GetMusicByIdInDto(Guid MusicId,Guid UserId)
         {
             var Music = await _dbcontext.Music
+                .Include(m => m.Album)
+                .Include (m => m.WhoFavorited)
+                .Include(m => m.Author)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == MusicId);
             if (Music == null) return null;
