@@ -59,7 +59,7 @@ namespace SoundUp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMusicById(Guid MusicId, Guid UserId, bool WithAudio)
         {
-            var MusicTask = _musicRepository.GetMusicByIdInDto(MusicId, UserId);
+            var Music = await _musicRepository.GetMusicByIdInDto(MusicId, UserId);
             string MusicAudio = string.Empty;
             if (WithAudio)
             {
@@ -68,7 +68,7 @@ namespace SoundUp.Controllers
 
             }
 
-            var Music = await MusicTask;
+            
             if (Music == null) return NotFound("Музыка не найдена");
             return Ok(new MusicWithAudioDto(Music, MusicAudio));
         }
