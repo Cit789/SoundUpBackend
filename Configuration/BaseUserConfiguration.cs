@@ -10,7 +10,9 @@ namespace SoundUp.Configuration
         public void Configure(EntityTypeBuilder<BaseUser> builder)
         {
             builder.HasKey(b => b.Id);
-
+            builder
+                .HasIndex(b => b.Name)
+                .IsUnique();
             builder
                 .HasMany(b => b.Favorites)
                 .WithMany(m => m.WhoFavorited);
@@ -28,7 +30,7 @@ namespace SoundUp.Configuration
                 .HasOne(b => b.ListenHistory)
                 .WithOne(h => h.User)
                 .HasForeignKey<BaseUser>(b => b.ListenHistoryId);
-
+            
             builder
                 .HasDiscriminator<string>("UserType")
                 .HasValue<User>("DefaultUser")
@@ -36,18 +38,6 @@ namespace SoundUp.Configuration
 
 
 
-        }
-    }
-    public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
-    {
-        public void Configure(EntityTypeBuilder<RefreshToken> builder)
-        {
-            builder.HasKey(t => t.Id);
-
-            builder
-                .HasOne(t => t.User)
-                .WithOne(u => u.RefreshToken)
-                .HasForeignKey<RefreshToken>(t => t.UserId);
         }
     }
 }

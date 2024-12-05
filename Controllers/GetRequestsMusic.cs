@@ -20,7 +20,7 @@ namespace SoundUp.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllMusics(int Page, int PageSize, Guid UserId)
+        public async Task<IActionResult> GetAllMusics(int Page, int PageSize,[FromHeader] Guid UserId)
         {
             if (Page <= 0 || PageSize < 0)
             {
@@ -32,7 +32,7 @@ namespace SoundUp.Controllers
         }
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetCreatedAuthorMusic(int Page, int PageSize, Guid AuthorId, Guid UserId)
+        public async Task<IActionResult> GetCreatedAuthorMusic(int Page, int PageSize, [FromHeader] Guid AuthorId, [FromHeader] Guid UserId)
         {
             if (Page <= 0 || PageSize < 0)
             {

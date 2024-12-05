@@ -24,6 +24,8 @@ namespace SoundUp.Configuration
                 .WithMany(a => a.AlbumMusic)
                 .HasForeignKey(m => m.AlbumId);
 
+            
+
             builder
                 .HasOne(m => m.MusicAudio)
                 .WithOne(ma => ma.Music)

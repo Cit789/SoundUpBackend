@@ -17,7 +17,7 @@ namespace SoundUp.Controllers
         public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumRequest RequestAlbum)
         {
 
-            if (await _authorRepository.IsAuthorHasAlbum(RequestAlbum.AuthorId, RequestAlbum.AlbumName)) return Conflict("Альбом с таким именем уже существует");
+        
 
             return await _albumRepository.PostNewAlbum(RequestAlbum) ? Ok("Альбом сохранен") : StatusCode(500, "Ошибка сохранения");
 

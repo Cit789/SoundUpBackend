@@ -27,6 +27,36 @@
         }
       }
     },
+    "/api/GetRequestsAlbum/GetAllAlbums": {
+      "get": {
+        "tags": [
+          "GetRequestsAlbum"
+        ],
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetRequestsMusic/GetAllMusics": {
       "get": {
         "tags": [

@@ -16,6 +16,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SoundUp.Controllers.GetRequestsAlbum",
+    "Method": "GetAllAlbums",
+    "RelativePath": "api/GetRequestsAlbum/GetAllAlbums",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoundUp.Controllers.GetRequestsMusic",
     "Method": "GetAlbumMusic",
     "RelativePath": "api/GetRequestsMusic/GetAlbumMusic",

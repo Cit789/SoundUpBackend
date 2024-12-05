@@ -20,6 +20,9 @@ namespace SoundUp.Configuration
                HasMany(al => al.AlbumMusic)
                .WithOne(m => m.Album)
                .HasForeignKey(m => m.AlbumId);
+            builder
+             .HasIndex(a => new { a.AuthorId, a.Name })
+             .IsUnique();
 
         }
 

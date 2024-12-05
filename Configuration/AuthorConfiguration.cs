@@ -21,6 +21,7 @@ namespace SoundUp.Configuration
                 .WithOne(al => al.Author)
                 .HasForeignKey(al => al.AuthorId);
 
+            
         }
     }
 }

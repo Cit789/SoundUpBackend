@@ -87,7 +87,7 @@ namespace SoundUp.Repositories
 
             
             var JwtToken = _jwtProvider.GenerateToken(NewUser);
-            return count == 0 ? new TokensDto(string.Empty,string.Empty) : new TokensDto(RefreshTokenValue,JwtToken);
+            return count == 0 ? new TokensDto(string.Empty,string.Empty,Guid.Empty) : new TokensDto(RefreshTokenValue,JwtToken,UserId);
         }
 
     }

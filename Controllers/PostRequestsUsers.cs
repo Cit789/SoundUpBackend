@@ -25,11 +25,10 @@ namespace SoundUp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateAuthorOrUserRequest createUserRequest)
         {
-            var IsUserCreated = await _userRepository.GetUserByUserName(createUserRequest.Name);
-            TokensDto tokens = new(string.Empty,string.Empty);
+           
+            TokensDto tokens = new(string.Empty,string.Empty, Guid.Empty);
 
-            if (IsUserCreated != null) return Conflict("Пользователь с этим именем уже создан");
-
+            
             if (createUserRequest.UserType == "UserAuthor")
                 tokens = await _userRepository.CreateUser<UserAuthor>(createUserRequest);
 
@@ -55,7 +54,7 @@ namespace SoundUp.Controllers
                 var RefreshToken = await _refreshTokenRepository.UpdateToken(FindedUser.Id);
                 
                 HttpContext.Response.Cookies.Append("cookie", JwtToken);
-                return Ok(new TokensDto(RefreshToken,JwtToken));
+                return Ok(new TokensDto(RefreshToken,JwtToken,FindedUser.Id));
             }
 
             return Unauthorized("Ошибка логина");
@@ -76,7 +75,7 @@ namespace SoundUp.Controllers
             
             HttpContext.Response.Cookies.Append("cookie", JwtToken);
 
-            return Ok(new TokensDto(RefreshToken,JwtToken));
+            return Ok(new TokensDto(RefreshToken,JwtToken,User.Id));
 
 
         }
