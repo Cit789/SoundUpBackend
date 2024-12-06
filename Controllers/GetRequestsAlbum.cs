@@ -13,9 +13,9 @@ namespace SoundUp.Controllers
     {
         private readonly IAlbumRepository _albumRepository = albumRepository;
         private const string PAGINATION_ERROR = "Номер страницы или ее размер не может быть отрицательным,(Отсчет страниц начинается с 1)";
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> AlbumInfoById(Guid Id)
+        public async Task<IActionResult> AlbumInfoById([FromHeader] Guid Id)
         {
             var Album = await _albumRepository.GetAlbumById(Id);
             if(Album  == null) return NotFound("Альбом не найден");

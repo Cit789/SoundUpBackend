@@ -1,6 +1,4 @@
-﻿
-
-namespace SoundUp.Models
+﻿namespace SoundUp.Models
 {
     public class Music
     {
@@ -20,8 +18,8 @@ namespace SoundUp.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<ListenHistory> ListenHistories { get; set; } = [];
-        public List<Playlist> MusicInPlaylists { get; set; } = [];
-        public List<BaseUser> WhoFavorited { get; set; } = [];
+        public List<PlaylistMusic> MusicInPlaylists { get; set; } = [];
+        public List<UserMusicFavorites> WhoFavorited { get; set; } = [];
 
         public Album? Album { get; set; }
         public Guid AlbumId { get; set; }

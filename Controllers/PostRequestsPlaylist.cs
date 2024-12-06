@@ -12,7 +12,7 @@ namespace SoundUp.Controllers
     {
 
         private readonly IPlaylistRepository _playlistRepository = playlistRepository;
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> PostPlaylist([FromBody] CreatePlaylistRequest createPlaylistRequest)
         {

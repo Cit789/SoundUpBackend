@@ -10,6 +10,9 @@ namespace SoundUp.Configuration
         {
             builder.HasKey(m => m.Id);
 
+            builder
+                .HasIndex(m => new { m.AuthorId ,m.Name})
+                .IsUnique();
 
             builder.HasOne(m => m.Author)
                 .WithMany(a => a.CreatedMusics)
@@ -17,14 +20,18 @@ namespace SoundUp.Configuration
 
             builder
                 .HasMany(m => m.MusicInPlaylists)
-                .WithMany(m => m.MusicList);
+                .WithOne(m => m.Music)
+                .HasForeignKey(pm => pm.MusicId);
 
             builder
                 .HasOne(m => m.Album)
                 .WithMany(a => a.AlbumMusic)
                 .HasForeignKey(m => m.AlbumId);
 
-            
+
+            builder.HasMany(u => u.WhoFavorited)
+                  .WithOne(um => um.Music)
+                  .HasForeignKey(u => u.UserId);
 
             builder
                 .HasOne(m => m.MusicAudio)
@@ -33,6 +40,5 @@ namespace SoundUp.Configuration
                 
 
         }
-
     }
 }

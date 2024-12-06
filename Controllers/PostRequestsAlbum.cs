@@ -12,7 +12,7 @@ namespace SoundUp.Controllers
     {
         private readonly IAlbumRepository _albumRepository = albumRepository;
         private readonly IAuthorRepository _authorRepository = authorRepository;
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumRequest RequestAlbum)
         {

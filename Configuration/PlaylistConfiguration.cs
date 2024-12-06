@@ -17,7 +17,8 @@ namespace SoundUp.Configuration
 
             builder
                 .HasMany(x => x.MusicList)
-                .WithMany(x => x.MusicInPlaylists);
+                .WithOne(x => x.Playlist)
+                .HasForeignKey(pm => pm.PlaylistId);
 
         }
 

@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using SoundUp.Contracts;
-using SoundUp.Interfaces.Repository;
+using SoundUp.Models;
+
 
 
 namespace SoundUp.Controllers
@@ -10,74 +9,61 @@ namespace SoundUp.Controllers
     
     [Controller]
     [Route("api/[controller]/[action]")]
-    public class PutRequestsMusic(ApplicationDbContext dbContext, IMusicRepository musicRepository) : ControllerBase
+    public class PutRequestsMusic(ApplicationDbContext dbContext) : ControllerBase
     {
         private readonly ApplicationDbContext _dbcontext = dbContext;
-        private readonly IMusicRepository _musicRepository = musicRepository;
-        [Authorize]
+      
+        //[Authorize]
         [HttpPut]
         public async Task<IActionResult> PutMusicInPlaylist([FromBody] AddMusicInPlaylistRequest addMusicInPlaylistRequest)
         {
-            var Music = await _musicRepository.GetMusicById(addMusicInPlaylistRequest.MusicId);
-            var Playlist = await _dbcontext.PlayLists
-                .Include(p => p.MusicList)
-                .FirstOrDefaultAsync(x => x.Id == addMusicInPlaylistRequest.PlaylistId);
+           
 
-            if (Playlist != null && Music != null && !Playlist.MusicList.Any(m => m.Id == addMusicInPlaylistRequest.MusicId))
+            var PlaylistMusic = new PlaylistMusic()
             {
-                Playlist.MusicList.Add(Music);
-                await _dbcontext.SaveChangesAsync();
-                return Ok("Музыка добавлена");
-            }
-            else if (Playlist == null && Music == null)
+                PlaylistId = addMusicInPlaylistRequest.PlaylistId,
+                MusicId = addMusicInPlaylistRequest.MusicId
+            };
+            try
             {
-                return NotFound("Музыка и плейлист не найдены");
-            }
-            else if (Playlist == null || Music == null)
-            {
-                return Playlist == null ? NotFound("Пользователь не найден") : NotFound("Музыка не найдена");
-            }
-            else if (Playlist.MusicList.Any(m => m.Id == addMusicInPlaylistRequest.MusicId))
-            {
-                return Conflict("Музыка уже добавлена");
-            }
 
-            return StatusCode(500, "Ошибка сохранения данных");
+                await _dbcontext.PlaylistMusic.AddAsync(PlaylistMusic);
+                var Changes = await _dbcontext.SaveChangesAsync();
 
+                return Changes > 0 ? Ok("Музыка добавлена") : BadRequest("Неккоректные значения");
+            }
+            catch
+            {
+                return BadRequest("Плейлист уже добавлен или айди являются ошибочными");
+            }
 
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         public async Task<IActionResult> PutMusicInFavourite([FromBody] AddMusicInFavouritesRequest addMusicInFavouritesRequest)
         {
-            var Music = await _dbcontext.Music
-                .FirstOrDefaultAsync(m => m.Id == addMusicInFavouritesRequest.MusicId);
+            var userMusicFavorite = new UserMusicFavorites()
+            {
+                UserId = addMusicInFavouritesRequest.UserId,
+                MusicId = addMusicInFavouritesRequest.MusicId
+            };
 
-            var User = await _dbcontext.AllUsers
-                .Include(u => u.Favorites)
-                .FirstOrDefaultAsync(u => u.Id == addMusicInFavouritesRequest.UserId);
+            try
+            {
 
-            if (User != null && Music != null && !User.Favorites.Any(m => m.Id == addMusicInFavouritesRequest.MusicId))
-            {
-                User.Favorites.Add(Music);
-                await _dbcontext.SaveChangesAsync();
-                return Ok("Музыка добавлена");
+                await _dbcontext.UserMusicFavorite.AddAsync(userMusicFavorite);
+                var Changes = await _dbcontext.SaveChangesAsync();
+
+                return Changes > 0 ? Ok("Музыка добавлена") : BadRequest("Неккоректные значения");
             }
-            else if (User == null && Music == null)
+            catch
             {
-                return NotFound("Музыка и пользователь не найдены");
-            }
-            else if (User == null || Music == null)
-            {
-                return User == null ? NotFound("Пользователь не найден") : NotFound("Музыка не найдена");
-            }
-            else if (User.Favorites.Any(m => m.Id == addMusicInFavouritesRequest.MusicId))
-            {
-                return Conflict("Музыка уже добавлена");
+                return BadRequest("Музыка уже добавлена или айди являются ошибочными");
             }
 
-            return StatusCode(500,"Ошибка сохранения данных");
+            
+           
 
 
 

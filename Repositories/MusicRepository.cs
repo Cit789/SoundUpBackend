@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SoundUp.Contracts;
 using SoundUp.Dto;
 using SoundUp.Interfaces.Repository;
@@ -23,7 +22,7 @@ namespace SoundUp.Repositories
                      m.Name,
                      m.Avatar,
                      m.Category,
-                     m.WhoFavorited.Any(f => f.Id == UserId),
+                     m.WhoFavorited.Any(f => f.UserId == UserId),
                      m.CreatedAt,
                      m.UpdatedAt,
                      [m.Author?.Name]);
@@ -68,25 +67,21 @@ namespace SoundUp.Repositories
         }
         public async Task<List<MusicDto>> GetMusicInPlaylist(int Page, int PageSize, Guid PlaylistId, Guid UserId)
         {
-            var PlayList = await _dbcontext.PlayLists
-                .AsNoTracking()
-                .Include(p => p.MusicList)
-                .ThenInclude(m => m.WhoFavorited)
-                .Include(p => p.MusicList)
-                .ThenInclude(m => m.Album)
-                .Include(p => p.MusicList)
-                .ThenInclude(m => m.Author)
-                .FirstOrDefaultAsync(p => p.Id == PlaylistId);
-
-
-            if (PlayList == null) return [];
-
-            return PlayList.MusicList
-                 .Select((m) => ToMusicDto(m, UserId))
+           
+            var Musics = await _dbcontext.PlaylistMusic
+                 .AsNoTracking()
+                 .Where(m => m.PlaylistId == UserId)
+                 .Include(pm => pm.Music)
+                 .ThenInclude(m => m.Album)
+                 .Include(pm => pm.Music)
+                 .ThenInclude(m => m.WhoFavorited)
+                 .Include(pm => pm.Music)
+                 .ThenInclude(m => m.Author)
+                 .Select(m => ToMusicDto(m.Music,UserId))
                  .Skip((Page - 1) * PageSize)
                  .Take(PageSize)
-                .ToList();
-
+                 .ToListAsync();
+            return Musics;
         }
 
         public async Task<List<MusicDto>> GetCreatedAuthorMusic(int Page, int PageSize, Guid AuthorId, Guid UserId)
@@ -132,22 +127,23 @@ namespace SoundUp.Repositories
 
         public async Task<List<MusicDto>> GetFavouriteMusicByUserId(int Page, int PageSize, Guid UserId)
         {
-           var User = await _dbcontext.AllUsers
-                .AsNoTracking()
-                .Include(u => u.Favorites)
-                .ThenInclude(m => m.Album)
-                .Include(u => u.Favorites)
-                .ThenInclude(m => m.Author)
-                .FirstOrDefaultAsync(u => u.Id == UserId);
-            if (User == null) return [];
-
            
+           var Musics =await _dbcontext.UserMusicFavorite
+                .AsNoTracking()
+                 .Where(m => m.UserId == UserId)
+                 .Include(pm => pm.Music)
+                 .ThenInclude(m => m.Album)
+                 .Include(pm => pm.Music)
+                 .ThenInclude(m => m.WhoFavorited)
+                 .Include(pm => pm.Music)
+                 .ThenInclude(m => m.Author)
+                 .Select(m => ToMusicDto(m.Music, UserId))
+                 .Skip((Page - 1) * PageSize)
+                 .Take(PageSize)
+                 .ToListAsync();
 
-            return User.Favorites
-                .Select(m => ToMusicDto(m,UserId))
-                .Skip((Page - 1) * PageSize)
-                .Take(PageSize)
-                .ToList();
+            return Musics;
+
         }
 
         public async Task<List<MusicDto>> GetAlbumMusic(int Page,int PageSize,Guid AlbumId,Guid UserId)

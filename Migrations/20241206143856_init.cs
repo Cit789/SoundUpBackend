@@ -146,30 +146,6 @@ namespace SoundUp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BaseUserMusic",
-                columns: table => new
-                {
-                    FavoritesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    WhoFavoritedId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BaseUserMusic", x => new { x.FavoritesId, x.WhoFavoritedId });
-                    table.ForeignKey(
-                        name: "FK_BaseUserMusic_AllUsers_WhoFavoritedId",
-                        column: x => x.WhoFavoritedId,
-                        principalTable: "AllUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BaseUserMusic_Music_FavoritesId",
-                        column: x => x.FavoritesId,
-                        principalTable: "Music",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ListenHistoryMusic",
                 columns: table => new
                 {
@@ -215,38 +191,64 @@ namespace SoundUp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MusicPlaylist",
+                name: "PlaylistMusic",
                 columns: table => new
                 {
-                    MusicInPlaylistsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MusicListId = table.Column<Guid>(type: "uuid", nullable: false)
+                    PlaylistId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MusicId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MusicPlaylist", x => new { x.MusicInPlaylistsId, x.MusicListId });
+                    table.PrimaryKey("PK_PlaylistMusic", x => new { x.PlaylistId, x.MusicId });
                     table.ForeignKey(
-                        name: "FK_MusicPlaylist_Music_MusicListId",
-                        column: x => x.MusicListId,
+                        name: "FK_PlaylistMusic_Music_MusicId",
+                        column: x => x.MusicId,
                         principalTable: "Music",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MusicPlaylist_PlayLists_MusicInPlaylistsId",
-                        column: x => x.MusicInPlaylistsId,
+                        name: "FK_PlaylistMusic_PlayLists_PlaylistId",
+                        column: x => x.PlaylistId,
                         principalTable: "PlayLists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Albums_AuthorId",
-                table: "Albums",
-                column: "AuthorId");
+            migrationBuilder.CreateTable(
+                name: "UserMusicFavorite",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MusicId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserMusicFavorite", x => new { x.UserId, x.MusicId });
+                    table.ForeignKey(
+                        name: "FK_UserMusicFavorite_AllUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AllUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserMusicFavorite_Music_MusicId",
+                        column: x => x.MusicId,
+                        principalTable: "Music",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseUserMusic_WhoFavoritedId",
-                table: "BaseUserMusic",
-                column: "WhoFavoritedId");
+                name: "IX_Albums_AuthorId_Name",
+                table: "Albums",
+                columns: new[] { "AuthorId", "Name" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AllUsers_Name",
+                table: "AllUsers",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ListenHistories_UserId",
@@ -265,9 +267,10 @@ namespace SoundUp.Migrations
                 column: "AlbumId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Music_AuthorId",
+                name: "IX_Music_AuthorId_Name",
                 table: "Music",
-                column: "AuthorId");
+                columns: new[] { "AuthorId", "Name" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MusicAudio_MusicId",
@@ -276,9 +279,15 @@ namespace SoundUp.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MusicPlaylist_MusicListId",
-                table: "MusicPlaylist",
-                column: "MusicListId");
+                name: "IX_PlaylistMusic_MusicId",
+                table: "PlaylistMusic",
+                column: "MusicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlaylistMusic_PlaylistId_MusicId",
+                table: "PlaylistMusic",
+                columns: new[] { "PlaylistId", "MusicId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayLists_CreatorId",
@@ -290,14 +299,22 @@ namespace SoundUp.Migrations
                 table: "RefreshTokens",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMusicFavorite_MusicId",
+                table: "UserMusicFavorite",
+                column: "MusicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserMusicFavorite_UserId_MusicId",
+                table: "UserMusicFavorite",
+                columns: new[] { "UserId", "MusicId" },
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "BaseUserMusic");
-
             migrationBuilder.DropTable(
                 name: "ListenHistoryMusic");
 
@@ -305,19 +322,22 @@ namespace SoundUp.Migrations
                 name: "MusicAudio");
 
             migrationBuilder.DropTable(
-                name: "MusicPlaylist");
+                name: "PlaylistMusic");
 
             migrationBuilder.DropTable(
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
+                name: "UserMusicFavorite");
+
+            migrationBuilder.DropTable(
                 name: "ListenHistories");
 
             migrationBuilder.DropTable(
-                name: "Music");
+                name: "PlayLists");
 
             migrationBuilder.DropTable(
-                name: "PlayLists");
+                name: "Music");
 
             migrationBuilder.DropTable(
                 name: "Albums");

@@ -11,18 +11,18 @@ namespace SoundUp.Controllers
     {
         private readonly IPlaylistRepository _playlistRepository = playlistRepository;
         private const string PAGINATION_ERROR = "Номер страницы или ее размер не может быть отрицательным,(Отсчет страниц начинается с 1)";
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetPlaylistById(Guid PlaylistId)
+        public async Task<IActionResult> GetPlaylistById([FromHeader] Guid PlaylistId)
         {
             var Playlist = await _playlistRepository.GetPlayListById(PlaylistId);
             if(Playlist == null) return NotFound("Плейлист не найден");
 
             return Ok(new PlaylistDto(Playlist.Id,Playlist.Avatar,Playlist.Avatar,Playlist.CreatorId,Playlist.CreatedAt,Playlist.UpdatedAt));
         }
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetUserPlaylists(int Page, int PageSize, Guid UserId)
+        public async Task<IActionResult> GetUserPlaylists(int Page, int PageSize, [FromHeader] Guid UserId)
         {
             if (Page <= 0 || PageSize < 0)
             {

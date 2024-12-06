@@ -12,7 +12,7 @@ using SoundUp;
 namespace SoundUp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241127152808_init")]
+    [Migration("20241206143856_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace SoundUp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("BaseUserMusic", b =>
-                {
-                    b.Property<Guid>("FavoritesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("WhoFavoritedId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("FavoritesId", "WhoFavoritedId");
-
-                    b.HasIndex("WhoFavoritedId");
-
-                    b.ToTable("BaseUserMusic");
-                });
 
             modelBuilder.Entity("ListenHistoryMusic", b =>
                 {
@@ -53,21 +38,6 @@ namespace SoundUp.Migrations
                     b.HasIndex("MusicHistoryId");
 
                     b.ToTable("ListenHistoryMusic");
-                });
-
-            modelBuilder.Entity("MusicPlaylist", b =>
-                {
-                    b.Property<Guid>("MusicInPlaylistsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("MusicListId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("MusicInPlaylistsId", "MusicListId");
-
-                    b.HasIndex("MusicListId");
-
-                    b.ToTable("MusicPlaylist");
                 });
 
             modelBuilder.Entity("SoundUp.Models.Album", b =>
@@ -99,7 +69,8 @@ namespace SoundUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorId", "Name")
+                        .IsUnique();
 
                     b.ToTable("Albums");
                 });
@@ -140,6 +111,9 @@ namespace SoundUp.Migrations
                         .HasColumnType("character varying(21)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("AllUsers");
 
@@ -201,7 +175,8 @@ namespace SoundUp.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorId", "Name")
+                        .IsUnique();
 
                     b.ToTable("Music");
                 });
@@ -263,6 +238,25 @@ namespace SoundUp.Migrations
                     b.ToTable("PlayLists");
                 });
 
+            modelBuilder.Entity("SoundUp.Models.PlaylistMusic", b =>
+                {
+                    b.Property<Guid>("PlaylistId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MusicId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("PlaylistId", "MusicId");
+
+                    b.HasIndex("MusicId");
+
+                    b.HasIndex("PlaylistId", "MusicId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_PlaylistMusic_PlaylistId_MusicId");
+
+                    b.ToTable("PlaylistMusic");
+                });
+
             modelBuilder.Entity("SoundUp.Models.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -290,6 +284,25 @@ namespace SoundUp.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
+            modelBuilder.Entity("SoundUp.Models.UserMusicFavorites", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MusicId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "MusicId");
+
+                    b.HasIndex("MusicId");
+
+                    b.HasIndex("UserId", "MusicId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_UserMusicFavorite_UserId_MusicId");
+
+                    b.ToTable("UserMusicFavorite");
+                });
+
             modelBuilder.Entity("SoundUp.Models.User", b =>
                 {
                     b.HasBaseType("SoundUp.Models.BaseUser");
@@ -304,21 +317,6 @@ namespace SoundUp.Migrations
                     b.HasDiscriminator().HasValue("AuthorForMusic");
                 });
 
-            modelBuilder.Entity("BaseUserMusic", b =>
-                {
-                    b.HasOne("SoundUp.Models.Music", null)
-                        .WithMany()
-                        .HasForeignKey("FavoritesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SoundUp.Models.BaseUser", null)
-                        .WithMany()
-                        .HasForeignKey("WhoFavoritedId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ListenHistoryMusic", b =>
                 {
                     b.HasOne("SoundUp.Models.ListenHistory", null)
@@ -330,21 +328,6 @@ namespace SoundUp.Migrations
                     b.HasOne("SoundUp.Models.Music", null)
                         .WithMany()
                         .HasForeignKey("MusicHistoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MusicPlaylist", b =>
-                {
-                    b.HasOne("SoundUp.Models.Playlist", null)
-                        .WithMany()
-                        .HasForeignKey("MusicInPlaylistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SoundUp.Models.Music", null)
-                        .WithMany()
-                        .HasForeignKey("MusicListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -412,6 +395,25 @@ namespace SoundUp.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("SoundUp.Models.PlaylistMusic", b =>
+                {
+                    b.HasOne("SoundUp.Models.Music", "Music")
+                        .WithMany("MusicInPlaylists")
+                        .HasForeignKey("MusicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SoundUp.Models.Playlist", "Playlist")
+                        .WithMany("MusicList")
+                        .HasForeignKey("PlaylistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Music");
+
+                    b.Navigation("Playlist");
+                });
+
             modelBuilder.Entity("SoundUp.Models.RefreshToken", b =>
                 {
                     b.HasOne("SoundUp.Models.BaseUser", "User")
@@ -423,6 +425,25 @@ namespace SoundUp.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SoundUp.Models.UserMusicFavorites", b =>
+                {
+                    b.HasOne("SoundUp.Models.Music", "Music")
+                        .WithMany("WhoFavorited")
+                        .HasForeignKey("MusicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SoundUp.Models.BaseUser", "User")
+                        .WithMany("Favorites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Music");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SoundUp.Models.Album", b =>
                 {
                     b.Navigation("AlbumMusic");
@@ -430,6 +451,8 @@ namespace SoundUp.Migrations
 
             modelBuilder.Entity("SoundUp.Models.BaseUser", b =>
                 {
+                    b.Navigation("Favorites");
+
                     b.Navigation("ListenHistory");
 
                     b.Navigation("Playlists");
@@ -440,6 +463,15 @@ namespace SoundUp.Migrations
             modelBuilder.Entity("SoundUp.Models.Music", b =>
                 {
                     b.Navigation("MusicAudio");
+
+                    b.Navigation("MusicInPlaylists");
+
+                    b.Navigation("WhoFavorited");
+                });
+
+            modelBuilder.Entity("SoundUp.Models.Playlist", b =>
+                {
+                    b.Navigation("MusicList");
                 });
 
             modelBuilder.Entity("SoundUp.Models.UserAuthor", b =>

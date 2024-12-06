@@ -276,6 +276,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SoundUp.Controllers.GetRequestsUsers",
+    "Method": "ValidateAccessToken",
+    "RelativePath": "api/GetRequestsUsers/ValidateAccessToken",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoundUp.Controllers.PostRequestsAlbum",
     "Method": "CreateAlbum",
     "RelativePath": "api/PostRequestsAlbum/CreateAlbum",

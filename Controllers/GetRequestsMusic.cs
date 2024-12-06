@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using SoundUp.Dto;
 using SoundUp.Interfaces.Repository;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Runtime.InteropServices;
 
 
@@ -18,7 +17,7 @@ namespace SoundUp.Controllers
         private const string PAGINATION_ERROR = "Номер страницы или ее размер не может быть отрицательным,(Отсчет страниц начинается с 1)";
         private const string MUSIC_NOTFOUND_ERROR = "музыка не найдена";
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllMusics(int Page, int PageSize,[FromHeader] Guid UserId)
         {
@@ -30,7 +29,7 @@ namespace SoundUp.Controllers
 
             return Music.Count == 0 ? NotFound(MUSIC_NOTFOUND_ERROR) : Ok(Music);
         }
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCreatedAuthorMusic(int Page, int PageSize, [FromHeader] Guid AuthorId, [FromHeader] Guid UserId)
         {
@@ -42,9 +41,9 @@ namespace SoundUp.Controllers
             return Musics.Count == 0 ? NotFound(MUSIC_NOTFOUND_ERROR) : Ok(Musics);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetPlayListMusic(int Page, int PageSize, Guid PlaylistId, Guid UserId, bool IsMixed)
+        public async Task<IActionResult> GetPlayListMusic(int Page, int PageSize, [FromHeader] Guid PlaylistId, [FromHeader] Guid UserId, bool IsMixed)
         {
             if (Page <= 0 || PageSize < 0)
             {
@@ -55,9 +54,9 @@ namespace SoundUp.Controllers
             if (IsMixed) Random.Shared.Shuffle(CollectionsMarshal.AsSpan(Musics));
             return Musics.Count == 0 ? NotFound(MUSIC_NOTFOUND_ERROR) : Ok(Musics);
         }
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetMusicById(Guid MusicId, Guid UserId, bool WithAudio)
+        public async Task<IActionResult> GetMusicById([FromHeader] Guid MusicId, [FromHeader] Guid UserId, bool WithAudio)
         {
             var Music = await _musicRepository.GetMusicByIdInDto(MusicId, UserId);
             string MusicAudio = string.Empty;
@@ -73,9 +72,9 @@ namespace SoundUp.Controllers
             return Ok(new MusicWithAudioDto(Music, MusicAudio));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetFavouriteMusicById(int Page,int PageSize,Guid UserId, string OrderBy)
+        public async Task<IActionResult> GetFavouriteMusicById(int Page,int PageSize,[FromHeader] Guid UserId, string OrderBy)
         {
             if (Page <= 0 || PageSize < 0)
             {
@@ -89,9 +88,9 @@ namespace SoundUp.Controllers
             return Ok(Music.OrderBy(m => m.CreatedAt));
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAlbumMusic(int Page, int PageSize, Guid AlbumId, Guid UserId)
+        public async Task<IActionResult> GetAlbumMusic(int Page, int PageSize, [FromHeader] Guid AlbumId, [FromHeader] Guid UserId)
         {
             if (Page <= 0 || PageSize < 0)
             {

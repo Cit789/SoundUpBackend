@@ -1,4 +1,5 @@
 ﻿
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using SoundUp.Contracts;
 using SoundUp.Dto;
@@ -38,7 +39,7 @@ namespace SoundUp.Controllers
             if (tokens.RefreshToken != string.Empty && tokens.JwtToken != string.Empty)
             {
 
-                HttpContext.Response.Cookies.Append("cookie", tokens.JwtToken);
+                HttpContext.Response.Cookies.Append(nameof(AccessToken), tokens.JwtToken);
                 return Ok(tokens);
             }
             return StatusCode(500, "Ошибка сохранения данных");
@@ -53,7 +54,7 @@ namespace SoundUp.Controllers
                 var JwtToken = _jwtProvaider.GenerateToken(FindedUser);
                 var RefreshToken = await _refreshTokenRepository.UpdateToken(FindedUser.Id);
                 
-                HttpContext.Response.Cookies.Append("cookie", JwtToken);
+                HttpContext.Response.Cookies.Append(nameof(AccessToken), JwtToken);
                 return Ok(new TokensDto(RefreshToken,JwtToken,FindedUser.Id));
             }
 
@@ -73,7 +74,7 @@ namespace SoundUp.Controllers
             if (string.IsNullOrEmpty(RefreshToken) || User == null) return NotFound("Пользователь не существует, либо у него нет токена");
             var JwtToken = _jwtProvaider.GenerateToken(User);
             
-            HttpContext.Response.Cookies.Append("cookie", JwtToken);
+            HttpContext.Response.Cookies.Append(nameof(AccessToken), JwtToken);
 
             return Ok(new TokensDto(RefreshToken,JwtToken,User.Id));
 

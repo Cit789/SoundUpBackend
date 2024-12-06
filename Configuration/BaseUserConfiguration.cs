@@ -13,19 +13,17 @@ namespace SoundUp.Configuration
             builder
                 .HasIndex(b => b.Name)
                 .IsUnique();
-            builder
-                .HasMany(b => b.Favorites)
-                .WithMany(m => m.WhoFavorited);
+           
 
             builder
                 .HasOne(u => u.RefreshToken)
                 .WithOne(t => t.User)
                 .HasForeignKey<BaseUser>(t => t.RefreshTokenId);
 
-            builder
-                .HasMany(b => b.Favorites)
-                .WithMany(m => m.WhoFavorited);
 
+            builder.HasMany(u => u.Favorites)
+                    .WithOne(um => um.User)
+                    .HasForeignKey(u => u.UserId);
             builder
                 .HasOne(b => b.ListenHistory)
                 .WithOne(h => h.User)
