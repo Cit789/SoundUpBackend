@@ -17,6 +17,32 @@
   },
   {
     "ContainingType": "SoundUp.Controllers.GetRequestsAlbum",
+    "Method": "GetAlbumFromAuthor",
+    "RelativePath": "api/GetRequestsAlbum/GetAlbumFromAuthor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "AuthorId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequestsAlbum",
     "Method": "GetAllAlbums",
     "RelativePath": "api/GetRequestsAlbum/GetAllAlbums",
     "HttpMethod": "GET",

@@ -40,6 +40,7 @@ namespace SoundUp.Controllers
             {
 
                 HttpContext.Response.Cookies.Append(nameof(AccessToken), tokens.JwtToken);
+                HttpContext.Response.Cookies.Append(nameof(RefreshToken), tokens.RefreshToken);
                 return Ok(tokens);
             }
             return StatusCode(500, "Ошибка сохранения данных");
@@ -55,6 +56,7 @@ namespace SoundUp.Controllers
                 var RefreshToken = await _refreshTokenRepository.UpdateToken(FindedUser.Id);
                 
                 HttpContext.Response.Cookies.Append(nameof(AccessToken), JwtToken);
+                HttpContext.Response.Cookies.Append(nameof(RefreshToken), RefreshToken);
                 return Ok(new TokensDto(RefreshToken,JwtToken,FindedUser.Id));
             }
 
@@ -75,7 +77,7 @@ namespace SoundUp.Controllers
             var JwtToken = _jwtProvaider.GenerateToken(User);
             
             HttpContext.Response.Cookies.Append(nameof(AccessToken), JwtToken);
-
+            HttpContext.Response.Cookies.Append(nameof(RefreshToken), RefreshToken);
             return Ok(new TokensDto(RefreshToken,JwtToken,User.Id));
 
 

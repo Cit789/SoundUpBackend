@@ -28,7 +28,7 @@ namespace SoundUp.Extensions
                     { 
                         OnMessageReceived = context =>
                         {
-                            context.Token = context.Request.Cookies["cookie"];
+                            context.Token = context.Request.Cookies[nameof(AccessToken)];
                             return Task.CompletedTask;
                         }
                     };

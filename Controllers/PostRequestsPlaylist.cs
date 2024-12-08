@@ -16,7 +16,8 @@ namespace SoundUp.Controllers
         [HttpPost]
         public async Task<IActionResult> PostPlaylist([FromBody] CreatePlaylistRequest createPlaylistRequest)
         {
-            return await _playlistRepository.CreatePlaylist(createPlaylistRequest) ? Ok("плейлист создан") : Conflict("Ошибка, плейлист не создан, автор может быть не найден");
+            var Playlist = await _playlistRepository.CreatePlaylist(createPlaylistRequest);
+            return Playlist is null ?  Conflict("Ошибка, плейлист не создан, автор может быть не найден") : Ok(Playlist.Id);
 
         }
     }

@@ -15,7 +15,7 @@ namespace SoundUp.Repositories
         {
             return new AlbumDto(album.Id,album.AuthorId,album.Name,album.Description,album.CreatedAt,album.UpdatedAt);
         }
-        public async Task<bool> PostNewAlbum(CreateAlbumRequest RequestAlbum)
+        public async Task<Album?> PostNewAlbum(CreateAlbumRequest RequestAlbum)
         {
             var NewAlbum = new Album()
             {
@@ -29,7 +29,7 @@ namespace SoundUp.Repositories
             await _dbcontext.Albums.AddAsync(NewAlbum);
             var Count = await _dbcontext.SaveChangesAsync();
 
-            return Count != 0;
+            return Count != 0 ? NewAlbum : null;
         }
         public async Task<Album?> GetAlbumById(Guid AlbumId)
         {
@@ -45,6 +45,16 @@ namespace SoundUp.Repositories
                 .Take(PageSize)
                 .Select(a => ToAlbumDto(a))
                 .ToListAsync();
+        }
+        public async Task<List<AlbumDto>> GetAlbumsFromAuthor(int Page, int PageSize,Guid AuthorId)
+        {
+            var Author = await _dbcontext.UserAuthors
+                .AsNoTracking()
+                .Include(m  => m.Albums)
+                .FirstOrDefaultAsync(u => u.Id == AuthorId);
+            if (Author == null)
+                return [];
+            return Author.Albums.Select(a => ToAlbumDto(a)).ToList();
         }
     }
 }

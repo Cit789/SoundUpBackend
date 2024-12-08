@@ -20,7 +20,8 @@ namespace SoundUp.Controllers
         {
             if (await _authorRepository.IsAuthorCreateThisMusic(RequestMusic.AuthorId, RequestMusic.Name)) return Conflict("Музыка с таким именем уже существует");
             else if (!await _authorRepository.IsAuthorHasAlbum(RequestMusic.AuthorId, RequestMusic.AlbumId)) return Conflict("Этот албьом не принадлежит данному автору");
-            return await _musicRepository.CreateMusic(RequestMusic) ? Ok("Музыка создана") : StatusCode(500, "Ошибка сохранения данных");
+            var Music = await _musicRepository.CreateMusic(RequestMusic);
+            return Music is null ? StatusCode(500, "Ошибка сохранения данных") : Ok(Music.Id);
         }
 
     }

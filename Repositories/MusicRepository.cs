@@ -82,6 +82,7 @@ namespace SoundUp.Repositories
                  .Take(PageSize)
                  .ToListAsync();
             return Musics;
+           
         }
 
         public async Task<List<MusicDto>> GetCreatedAuthorMusic(int Page, int PageSize, Guid AuthorId, Guid UserId)
@@ -99,7 +100,7 @@ namespace SoundUp.Repositories
                 .ToList();
         }
 
-        public async Task<bool> CreateMusic(CreateMusicRequest RequestMusic)
+        public async Task<Music?> CreateMusic(CreateMusicRequest RequestMusic)
         {
             Guid MusicId = Guid.NewGuid();
             Guid MusicAudioId = Guid.NewGuid();
@@ -122,7 +123,7 @@ namespace SoundUp.Repositories
 
             await _dbcontext.Music.AddAsync(NewMusic);
             var Count = await _dbcontext.SaveChangesAsync();
-            return Count != 0;
+            return Count != 0 ? NewMusic : null ;
         }
 
         public async Task<List<MusicDto>> GetFavouriteMusicByUserId(int Page, int PageSize, Guid UserId)

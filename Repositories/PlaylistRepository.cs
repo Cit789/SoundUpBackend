@@ -15,9 +15,9 @@ namespace SoundUp.Repositories
         {
             return new PlaylistDto(playlist.Id,playlist.Avatar,playlist.Name,playlist.CreatorId,playlist.CreatedAt,playlist.UpdatedAt);
         }
-        public async Task<bool> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
+        public async Task<Playlist?> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
         {
-            if(_userRepository.GetUserById(createPlaylistRequest.CreatorId) == null) return false;
+            if(_userRepository.GetUserById(createPlaylistRequest.CreatorId) == null) return null;
 
             var playlist = new Playlist()
             {
@@ -28,7 +28,7 @@ namespace SoundUp.Repositories
             };
             await _dbcontext.PlayLists.AddAsync(playlist);
             var Count = await _dbcontext.SaveChangesAsync();
-            return Count != 0;
+            return Count != 0 ? playlist : null;
         }
         public async Task<Playlist?> GetPlayListById(Guid PlaylistId)
         {

@@ -6,8 +6,9 @@ namespace SoundUp.Interfaces.Repository
 {
     public interface IAlbumRepository
     {
-        Task<bool> PostNewAlbum(CreateAlbumRequest RequestAlbum);
+        Task<Album?> PostNewAlbum(CreateAlbumRequest RequestAlbum);
         Task<Album?> GetAlbumById(Guid AlbumId);
         Task<List<AlbumDto>> GetAllAlbums(int Page, int PageSize);
+        Task<List<AlbumDto>> GetAlbumsFromAuthor(int Page, int PageSize, Guid AuthorId);
     }
 }

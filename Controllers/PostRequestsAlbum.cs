@@ -17,9 +17,9 @@ namespace SoundUp.Controllers
         public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumRequest RequestAlbum)
         {
 
-        
+            var Album = await _albumRepository.PostNewAlbum(RequestAlbum);
 
-            return await _albumRepository.PostNewAlbum(RequestAlbum) ? Ok("Альбом сохранен") : StatusCode(500, "Ошибка сохранения");
+            return Album is null ? StatusCode(500, "Ошибка сохранения") : Ok(Album.Id);
 
         }
     }

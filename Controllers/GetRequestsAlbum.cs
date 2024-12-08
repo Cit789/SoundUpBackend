@@ -1,6 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SoundUp.Dto;
 using SoundUp.Interfaces.Repository;
 
@@ -31,6 +29,16 @@ namespace SoundUp.Controllers
             }
             var Albums = await _albumRepository.GetAllAlbums(Page, PageSize);
             return Albums.Count == 0 ? NotFound("Альбомы не найдены"): Ok(Albums);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAlbumFromAuthor(int Page, int PageSize, [FromHeader] Guid AuthorId)
+        {
+            if (Page <= 0 || PageSize < 0)
+            {
+                return BadRequest(PAGINATION_ERROR);
+            }
+            var Albums = await _albumRepository.GetAlbumsFromAuthor(Page, PageSize, AuthorId);
+            return Albums.Count == 0 ? NotFound("Альбом не найден") : Ok(Albums) ;
         }
     }
     
