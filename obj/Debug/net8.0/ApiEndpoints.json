@@ -1,5 +1,68 @@
 [
   {
+    "ContainingType": "SoundUp.Controllers.DeleteRequestsMusic",
+    "Method": "DeleteMusicFromFavorites",
+    "RelativePath": "api/DeleteRequestsMusic/DeleteMusicFromFavorites/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.DeleteRequestsMusic",
+    "Method": "DeleteMusicFromPlaylist",
+    "RelativePath": "api/DeleteRequestsMusic/DeleteMusicFromPlaylist/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PlaylistId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.DeleteRequestsPlaylist",
+    "Method": "DeletePlaylist",
+    "RelativePath": "api/DeleteRequestsPlaylist/DeletePlaylist/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoundUp.Controllers.GetRequestsAlbum",
     "Method": "AlbumInfoById",
     "RelativePath": "api/GetRequestsAlbum/AlbumInfoById",

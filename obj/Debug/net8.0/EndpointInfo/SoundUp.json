@@ -5,6 +5,99 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/DeleteRequestsMusic/DeleteMusicFromPlaylist/{id}": {
+      "delete": {
+        "tags": [
+          "DeleteRequestsMusic"
+        ],
+        "parameters": [
+          {
+            "name": "PlaylistId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DeleteRequestsMusic/DeleteMusicFromFavorites/{id}": {
+      "delete": {
+        "tags": [
+          "DeleteRequestsMusic"
+        ],
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DeleteRequestsPlaylist/DeletePlaylist/{id}": {
+      "delete": {
+        "tags": [
+          "DeleteRequestsPlaylist"
+        ],
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetRequestsAlbum/AlbumInfoById": {
       "get": {
         "tags": [
@@ -758,10 +851,6 @@
       "CreateAuthorOrUserRequest": {
         "type": "object",
         "properties": {
-          "avatar": {
-            "type": "string",
-            "nullable": true
-          },
           "name": {
             "type": "string",
             "nullable": true

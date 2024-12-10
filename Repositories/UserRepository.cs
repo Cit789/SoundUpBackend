@@ -69,7 +69,6 @@ namespace SoundUp.Repositories
             {
                 Name = createUserRequest.Name,
                 Password = HashPassword,
-                Avatar = createUserRequest.Avatar,
                 Id = UserId,
 
                 RefreshToken = RefreshToken,

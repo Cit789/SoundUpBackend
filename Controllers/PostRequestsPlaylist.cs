@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SoundUp.Contracts;
 using SoundUp.Interfaces.Repository;
 
@@ -17,7 +16,7 @@ namespace SoundUp.Controllers
         public async Task<IActionResult> PostPlaylist([FromBody] CreatePlaylistRequest createPlaylistRequest)
         {
             var Playlist = await _playlistRepository.CreatePlaylist(createPlaylistRequest);
-            return Playlist is null ?  Conflict("Ошибка, плейлист не создан, автор может быть не найден") : Ok(Playlist.Id);
+            return Playlist is null ?  Conflict("Ошибка, плейлист не создан или автор не найден") : Ok(Playlist.Id);
 
         }
     }

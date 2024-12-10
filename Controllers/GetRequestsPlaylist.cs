@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SoundUp.Dto;
 using SoundUp.Interfaces.Repository;
 
@@ -11,6 +10,7 @@ namespace SoundUp.Controllers
     {
         private readonly IPlaylistRepository _playlistRepository = playlistRepository;
         private const string PAGINATION_ERROR = "Номер страницы или ее размер не может быть отрицательным,(Отсчет страниц начинается с 1)";
+
         //[Authorize]
         [HttpGet]
         public async Task<IActionResult> GetPlaylistById([FromHeader] Guid PlaylistId)

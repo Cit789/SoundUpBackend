@@ -19,7 +19,7 @@ namespace SoundUp.Controllers
 
             var Album = await _albumRepository.PostNewAlbum(RequestAlbum);
 
-            return Album is null ? StatusCode(500, "Ошибка сохранения") : Ok(Album.Id);
+            return Album is null ? StatusCode(500, "Ошибка, возможно автор уже создал альбом с таким именем") : Ok(Album.Id);
 
         }
     }
