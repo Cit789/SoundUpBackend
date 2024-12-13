@@ -20,6 +20,14 @@
             }
           },
           {
+            "name": "CreatorId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
             "name": "id",
             "in": "path",
             "required": true,
@@ -81,6 +89,29 @@
               "format": "uuid"
             }
           },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DeleteRequestsUser/DeleteUser/{id}": {
+      "delete": {
+        "tags": [
+          "DeleteRequestsUser"
+        ],
+        "parameters": [
           {
             "name": "id",
             "in": "path",

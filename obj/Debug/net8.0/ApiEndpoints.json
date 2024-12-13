@@ -34,6 +34,11 @@
         "IsRequired": false
       },
       {
+        "Name": "CreatorId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
         "Name": "id",
         "Type": "System.Guid",
         "IsRequired": true
@@ -54,6 +59,22 @@
         "Type": "System.Guid",
         "IsRequired": false
       },
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.DeleteRequestsUser",
+    "Method": "DeleteUser",
+    "RelativePath": "api/DeleteRequestsUser/DeleteUser/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
         "Name": "id",
         "Type": "System.Guid",

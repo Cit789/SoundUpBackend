@@ -49,10 +49,12 @@ namespace SoundUp.Controllers
             {
                 return BadRequest(PAGINATION_ERROR);
             }
-
+            
+            
             var Musics = await _musicRepository.GetMusicInPlaylist(Page, PageSize, PlaylistId, UserId);
             if (IsMixed) Random.Shared.Shuffle(CollectionsMarshal.AsSpan(Musics));
             return Musics.Count == 0 ? NotFound(MUSIC_NOTFOUND_ERROR) : Ok(Musics);
+            
         }
         //[Authorize]
         [HttpGet]
