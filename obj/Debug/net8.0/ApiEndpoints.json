@@ -345,6 +345,22 @@
   },
   {
     "ContainingType": "SoundUp.Controllers.GetRequestsPlaylist",
+    "Method": "GetUserCountPlaylists",
+    "RelativePath": "api/GetRequestsPlaylist/GetUserCountPlaylists",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.GetRequestsPlaylist",
     "Method": "GetUserPlaylists",
     "RelativePath": "api/GetRequestsPlaylist/GetUserPlaylists",
     "HttpMethod": "GET",
@@ -518,6 +534,22 @@
       {
         "Name": "addMusicInPlaylistRequest",
         "Type": "SoundUp.Contracts.AddMusicInPlaylistRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PutRequestsUser",
+    "Method": "UpdateUserProfile",
+    "RelativePath": "api/PutRequestsUser/UpdateUserProfile",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "NewUserData",
+        "Type": "SoundUp.Contracts.UpdateUserProfileRequest",
         "IsRequired": true
       }
     ],

@@ -544,6 +544,28 @@
         }
       }
     },
+    "/api/GetRequestsPlaylist/GetUserCountPlaylists": {
+      "get": {
+        "tags": [
+          "GetRequestsPlaylist"
+        ],
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/GetRequestsUsers/GetUser": {
       "get": {
         "tags": [
@@ -825,6 +847,37 @@
           }
         }
       }
+    },
+    "/api/PutRequestsUser/UpdateUserProfile": {
+      "put": {
+        "tags": [
+          "PutRequestsUser"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserProfileRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserProfileRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserProfileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -990,6 +1043,28 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "UpdateUserProfileRequest": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "newAvatar": {
+            "type": "string",
+            "nullable": true
+          },
+          "newUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       }
     }
   }
