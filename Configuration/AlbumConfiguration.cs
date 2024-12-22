@@ -9,7 +9,7 @@ namespace SoundUp.Configuration
         public void Configure(EntityTypeBuilder<Album> builder)
         {
             builder.HasKey(x => x.Id);
-
+            
 
             builder
                 .HasOne(al => al.Author)

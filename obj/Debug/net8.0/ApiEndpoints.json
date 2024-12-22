@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "SoundUp.Controllers.DeleteRequestsAlbum",
+    "Method": "DeleteAlbum",
+    "RelativePath": "api/DeleteRequestsAlbum/DeleteAlbum",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AlbumId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.DeleteRequestsMusic",
+    "Method": "DeleteMusic",
+    "RelativePath": "api/DeleteRequestsMusic/DeleteMusic",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "MusicId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoundUp.Controllers.DeleteRequestsMusic",
     "Method": "DeleteMusicFromFavorites",
     "RelativePath": "api/DeleteRequestsMusic/DeleteMusicFromFavorites/{id}",
@@ -412,6 +444,48 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SoundUp.Controllers.PatchRequestsMusic",
+    "Method": "PatchMusic",
+    "RelativePath": "api/PatchRequestsMusic/PatchMusic/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "patchDoc",
+        "Type": "Microsoft.AspNetCore.JsonPatch.Operations.Operation[]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PatchRequestsUser",
+    "Method": "PatchUser",
+    "RelativePath": "api/PatchRequestsUser/PatchUser/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "patchDoc",
+        "Type": "Microsoft.AspNetCore.JsonPatch.Operations.Operation[]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SoundUp.Controllers.PostRequestsAlbum",
     "Method": "CreateAlbum",
     "RelativePath": "api/PostRequestsAlbum/CreateAlbum",
@@ -534,22 +608,6 @@
       {
         "Name": "addMusicInPlaylistRequest",
         "Type": "SoundUp.Contracts.AddMusicInPlaylistRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SoundUp.Controllers.PutRequestsUser",
-    "Method": "UpdateUserProfile",
-    "RelativePath": "api/PutRequestsUser/UpdateUserProfile",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "NewUserData",
-        "Type": "SoundUp.Contracts.UpdateUserProfileRequest",
         "IsRequired": true
       }
     ],

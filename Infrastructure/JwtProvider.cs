@@ -14,7 +14,7 @@ namespace SoundUp.Infrastructure
 
         public string GenerateToken(BaseUser user)
         {
-            Claim[] claims = { new("UserId",user.Id.ToString()) , new("UserName",user.Name)};
+            Claim[] claims = { new(ClaimTypes.NameIdentifier, user.Id.ToString()) , new(ClaimTypes.Name, user.Name)};
 
             var SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),

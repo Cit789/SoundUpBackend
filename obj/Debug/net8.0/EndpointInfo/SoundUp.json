@@ -5,6 +5,28 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/DeleteRequestsAlbum/DeleteAlbum": {
+      "delete": {
+        "tags": [
+          "DeleteRequestsAlbum"
+        ],
+        "parameters": [
+          {
+            "name": "AlbumId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/DeleteRequestsMusic/DeleteMusicFromPlaylist/{id}": {
       "delete": {
         "tags": [
@@ -62,6 +84,28 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/DeleteRequestsMusic/DeleteMusic": {
+      "delete": {
+        "tags": [
+          "DeleteRequestsMusic"
+        ],
+        "parameters": [
+          {
+            "name": "MusicId",
+            "in": "header",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -600,6 +644,124 @@
         }
       }
     },
+    "/api/PatchRequestsMusic/PatchMusic/{id}": {
+      "patch": {
+        "tags": [
+          "PatchRequestsMusic"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/PatchRequestsUser/PatchUser/{id}": {
+      "patch": {
+        "tags": [
+          "PatchRequestsUser"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Operation"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/PostRequestsAlbum/CreateAlbum": {
       "post": {
         "tags": [
@@ -607,6 +769,11 @@
         ],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAlbumRequest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateAlbumRequest"
@@ -638,6 +805,11 @@
         ],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMusicRequest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateMusicRequest"
@@ -669,6 +841,11 @@
         ],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlaylistRequest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreatePlaylistRequest"
@@ -700,6 +877,11 @@
         ],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateAuthorOrUserRequest"
@@ -731,6 +913,11 @@
         ],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserRequest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/LoginUserRequest"
@@ -762,6 +949,11 @@
         ],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetRegenerateTokensRequest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/GetRegenerateTokensRequest"
@@ -793,6 +985,11 @@
         ],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMusicInPlaylistRequest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AddMusicInPlaylistRequest"
@@ -824,6 +1021,11 @@
         ],
         "requestBody": {
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMusicInFavouritesRequest"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AddMusicInFavouritesRequest"
@@ -837,37 +1039,6 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/AddMusicInFavouritesRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/PutRequestsUser/UpdateUserProfile": {
-      "put": {
-        "tags": [
-          "PutRequestsUser"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserProfileRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserProfileRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserProfileRequest"
               }
             }
           }
@@ -1044,27 +1215,42 @@
         "type": "integer",
         "format": "int32"
       },
-      "UpdateUserProfileRequest": {
+      "Operation": {
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "string",
-            "format": "uuid"
+          "operationType": {
+            "$ref": "#/components/schemas/OperationType"
           },
-          "newAvatar": {
+          "path": {
             "type": "string",
             "nullable": true
           },
-          "newUserName": {
+          "op": {
             "type": "string",
             "nullable": true
           },
-          "newPassword": {
+          "from": {
             "type": "string",
+            "nullable": true
+          },
+          "value": {
             "nullable": true
           }
         },
         "additionalProperties": false
+      },
+      "OperationType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "type": "integer",
+        "format": "int32"
       }
     }
   }

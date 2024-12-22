@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SoundUp.Models;
+using System.Security.Claims;
 
 namespace SoundUp.Controllers
 {
@@ -49,6 +49,22 @@ namespace SoundUp.Controllers
 
             await _dbcontext.SaveChangesAsync();
             return Ok("Музыка удалена из любимых треков");
+        }
+        [HttpDelete]
+        public async Task<ActionResult> DeleteMusic([FromHeader] Guid MusicId)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+           
+            var music = await _dbcontext.Music.FirstOrDefaultAsync(m => m.Id == MusicId);
+
+            if (music == null) return NotFound("Музыка не найдена");
+
+            if (music.AuthorId.ToString() != userId)
+                return  Unauthorized("Нет доступа");
+
+            _dbcontext.Music.Remove(music);
+            await _dbcontext.SaveChangesAsync();
+            return Ok("Музыка удалена");
         }
 
     }

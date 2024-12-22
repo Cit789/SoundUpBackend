@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using SoundUp.Contracts;
 using SoundUp.Models;
 
@@ -62,12 +65,10 @@ namespace SoundUp.Controllers
                 return BadRequest("Музыка уже добавлена или айди являются ошибочными");
             }
 
-            
+
            
-
-
-
         }
+        
 
     }
 }
