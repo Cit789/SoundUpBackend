@@ -17,7 +17,7 @@ namespace SoundUp.Repositories
         }
         public async Task<Playlist?> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
         {
-            var User = await _userRepository.GetUserById(createPlaylistRequest.CreatorId);
+            var User = await _dbcontext.AllUsers.FirstOrDefaultAsync(u => u.Id == createPlaylistRequest.CreatorId);
             if (User is null) return null;
 
             var playlist = new Playlist()
