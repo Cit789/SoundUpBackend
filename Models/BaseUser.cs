@@ -15,6 +15,7 @@
 
         public RefreshToken? RefreshToken { get; set; }
         public Guid RefreshTokenId {  get; set; }
+        public List<Album> FavoriteAlbums { get; set; } = [];
         public List<UserMusicFavorites> Favorites { get; set; } = [];
         public List<Playlist> Playlists { get; set; } = [];
         public ListenHistory? ListenHistory { get; set; }

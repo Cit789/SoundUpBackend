@@ -978,6 +978,66 @@
         }
       }
     },
+    "/PutRequestAlbum/AddAlbumInFavorite": {
+      "put": {
+        "tags": [
+          "PutRequestAlbum"
+        ],
+        "parameters": [
+          {
+            "name": "AlbumId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/PutRequestPlaylist/PutPlaylistInUser": {
+      "put": {
+        "tags": [
+          "PutRequestPlaylist"
+        ],
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "PlaylistId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/PutRequestsMusic/PutMusicInPlaylist": {
       "put": {
         "tags": [

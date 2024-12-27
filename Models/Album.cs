@@ -14,6 +14,7 @@
         public UserAuthor? Author { get; set; }
         public Guid AuthorId { get; set; }
         public List<Music> AlbumMusic { get; set; } = [];
+        public List<BaseUser> FavoritedUsers { get; set; } = [];
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

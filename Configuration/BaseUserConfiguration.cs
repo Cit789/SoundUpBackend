@@ -13,7 +13,11 @@ namespace SoundUp.Configuration
             builder
                 .HasIndex(b => b.Name)
                 .IsUnique();
-           
+
+            builder
+                .HasMany(u => u.Playlists)
+                .WithMany(p => p.Users);
+
 
             builder
                 .HasOne(u => u.RefreshToken)

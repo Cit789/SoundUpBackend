@@ -12,7 +12,7 @@ namespace SoundUp.Configuration
 
 
             builder.HasOne(x => x.Creator)
-                .WithMany(x => x.Playlists)
+                .WithMany()
                 .HasForeignKey(x => x.CreatorId);
 
             builder
@@ -20,6 +20,13 @@ namespace SoundUp.Configuration
                 .WithOne(x => x.Playlist)
                 .HasForeignKey(pm => pm.PlaylistId);
 
+            builder
+                .HasMany(p => p.Users)
+                .WithMany(x => x.Playlists)
+                .UsingEntity<UserPlaylists>(
+                a => a.HasOne<BaseUser>().WithMany().HasForeignKey(a => a.UserId),
+                l => l.HasOne<Playlist>().WithMany().HasForeignKey(a => a.PlaylistId)
+                );
         }
 
     }

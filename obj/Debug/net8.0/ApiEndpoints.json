@@ -612,5 +612,47 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PutRequestAlbum",
+    "Method": "AddAlbumInFavorite",
+    "RelativePath": "PutRequestAlbum/AddAlbumInFavorite",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AlbumId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoundUp.Controllers.PutRequestPlaylist",
+    "Method": "PutPlaylistInUser",
+    "RelativePath": "PutRequestPlaylist/PutPlaylistInUser",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "PlaylistId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
