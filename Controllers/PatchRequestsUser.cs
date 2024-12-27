@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SoundUp.Models;
 using System.Security.Claims;
 
+
 namespace SoundUp.Controllers
 {
     [Controller]
@@ -18,7 +19,8 @@ namespace SoundUp.Controllers
 
             if (patchDoc == null)
                 return BadRequest("Неккоректные данные");
-
+            
+            
             var user = await _dbcontext.AllUsers.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
                 return NotFound("пользователь не найден");
@@ -26,6 +28,17 @@ namespace SoundUp.Controllers
             if (userId != user.Id.ToString())
                 return BadRequest("Данный пользователь не имеет прав на изменение");
 
+            var forbiddenFields = new List<string> { "Id", "CreatedAt", "UpdatedAt","RefreshTokenId","ListenHistoryId" };
+
+           
+            foreach (var operation in patchDoc.Operations.ToList())
+            {
+                if (forbiddenFields.Contains(operation.path.TrimStart('/')))
+                {
+
+                    return BadRequest("Запрашиваемое изменение запрещено");
+                }
+            }
             if (!ModelState.IsValid)
                 return BadRequest("Некорректные данные");
 
