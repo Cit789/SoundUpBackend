@@ -25,10 +25,10 @@ namespace SoundUp.Controllers
             if (user == null)
                 return NotFound("пользователь не найден");
 
-            if (userId != user.Id.ToString())
-                return BadRequest("Данный пользователь не имеет прав на изменение");
+            //if (userId != user.Id.ToString())
+            //    return BadRequest("Данный пользователь не имеет прав на изменение");
 
-            var forbiddenFields = new List<string> { "Id", "CreatedAt", "UpdatedAt","RefreshTokenId","ListenHistoryId" };
+            List<string> forbiddenFields = [ "Id", "CreatedAt", "UpdatedAt","RefreshTokenId","ListenHistoryId" ];
 
            
             foreach (var operation in patchDoc.Operations.ToList())

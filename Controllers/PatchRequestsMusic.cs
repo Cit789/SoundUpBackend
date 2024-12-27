@@ -18,12 +18,23 @@ namespace SoundUp.Controllers
             if (patchDoc == null)
                 return BadRequest("некорректный запрос");
 
+            List<string> forbiddenFields = ["Id", "CreatedAt", "UpdatedAt", "AuthorId", "MusicAudioId"];
+
+
+            foreach (var operation in patchDoc.Operations.ToList())
+            {
+                if (forbiddenFields.Contains(operation.path.TrimStart('/')))
+                {
+
+                    return BadRequest("Запрашиваемое изменение запрещено");
+                }
+            }
             var music = await _dbcontext.Music.FirstOrDefaultAsync(u => u.Id == id);
             if (music == null)
                 return NotFound("музыка не найдена");
 
-            if (music.AuthorId.ToString() != userId)
-                return BadRequest("Данный пользователь не имеет права изменять музыку");
+            //if (music.AuthorId.ToString() != userId)
+            //    return BadRequest("Данный пользователь не имеет права изменять музыку");
 
             if (!ModelState.IsValid)
                 return BadRequest("Некорректные данные");

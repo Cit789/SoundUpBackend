@@ -16,6 +16,7 @@ namespace SoundUp.Controllers
             var Playlist = await _dbcontext.PlayLists.FirstOrDefaultAsync(p => p.Id == PlaylistId);
 
             if (User is null || Playlist is null) return NotFound("Плейлист или пользователь не найдены");
+            if (User.Playlists.Any(p => p.Id == PlaylistId)) return Conflict("Плейлист уже добавлен");
             User.Playlists.Add(Playlist);
             await _dbcontext.SaveChangesAsync();
 

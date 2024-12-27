@@ -17,7 +17,8 @@ namespace SoundUp.Repositories
         }
         public async Task<Playlist?> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
         {
-            if(await _userRepository.GetUserById(createPlaylistRequest.CreatorId) == null) return null;
+            var User = await _userRepository.GetUserById(createPlaylistRequest.CreatorId);
+            if (User is null) return null;
 
             var playlist = new Playlist()
             {
@@ -27,6 +28,7 @@ namespace SoundUp.Repositories
                 Avatar = createPlaylistRequest.Avatar
             };
             await _dbcontext.PlayLists.AddAsync(playlist);
+            User.Playlists.Add(playlist);
             var Count = await _dbcontext.SaveChangesAsync();
             return Count != 0 ? playlist : null;
         }
